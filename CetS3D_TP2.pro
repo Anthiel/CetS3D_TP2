@@ -32,13 +32,15 @@ SOURCES += \
         mainwindow.cpp \
     myopenglwidget.cpp \
     segment.cpp \
-    point.cpp
+    point.cpp \
+    courbeparametrique.cpp
 
 HEADERS += \
         mainwindow.h \
     myopenglwidget.h \
     segment.h \
-    point.h
+    point.h \
+    courbeparametrique.h
 
 FORMS += \
         mainwindow.ui
