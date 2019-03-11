@@ -9,8 +9,8 @@
 #include <iostream>
 
 
-static const QString vertexShaderFile   = "basic.vsh";
-static const QString fragmentShaderFile = "basic.fsh";
+static const QString vertexShaderFile   = ":/basic.vsh";
+static const QString fragmentShaderFile = ":/basic.fsh";
 
 
 myOpenGLWidget::myOpenGLWidget(QWidget *parent) :

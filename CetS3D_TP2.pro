@@ -7,7 +7,7 @@ CONFIG	+= c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = visuCourbe
+TARGET = CetS3D_TP2
 TEMPLATE = app
 
 LIBS += -lGLU32\
@@ -43,6 +43,5 @@ HEADERS += \
 FORMS += \
         mainwindow.ui
 
-DISTFILES += \
-    basic.fsh \
-    basic.vsh
+RESOURCES += \
+    ressources.qrc
