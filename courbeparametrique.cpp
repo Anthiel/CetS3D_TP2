@@ -13,7 +13,7 @@ CourbeParametrique::CourbeParametrique(Point pA, Point pB, Point pC, Point pD, f
     S3 = new Segment(pC, pD);
 }
 
-void CourbeParametrique::makeObjects(QVector<GLfloat> *vertData){
+void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
     S1->makeObject(vertData);
     S2->makeObject(vertData);
     S3->makeObject(vertData);
