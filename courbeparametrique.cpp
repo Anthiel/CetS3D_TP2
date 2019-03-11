@@ -2,13 +2,28 @@
 
 CourbeParametrique::CourbeParametrique(Point pA, Point pB, Point pC, Point pD, float r, float g, float b)
 {
-    this->pointA = pA;
-    this->pointB = pB;
-    this->pointC = pC;
-    this->pointD = pD;
 
-    this->pointA.setColor(r, g, b);
-    this->pointB.setColor(r, g, b);
-    this->pointC.setColor(r, g, b);
-    this->pointD.setColor(r, g, b);
+    pA.setColor(r, g, b);
+    pB.setColor(r, g, b);
+    pC.setColor(r, g, b);
+    pD.setColor(r, g, b);
+
+    Segment *S1 = new Segment(pA, pB);
+    Segment *S2 = new Segment(pB, pC);
+    Segment *S3 = new Segment(pC, pD);
 }
+
+void CourbeParametrique::makeObjects(QVector<GLfloat> *vertData){
+    S1.makeObject(vertData);
+    S2.makeObject(vertData);
+    S3.makeObject(vertData);
+}
+
+void CourbeParametrique::setStart(int start){
+    this->start = start;
+}
+
+int CourbeParametrique::getSize(){
+    return size;
+}
+
