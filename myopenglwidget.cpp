@@ -28,12 +28,6 @@ myOpenGLWidget::myOpenGLWidget(QWidget *parent) :
 	setFocusPolicy(Qt::StrongFocus); // accepte focus
 	setFocus();                      // donne le focus
 
-    A = new Point(0.0, 0.0, 0.0,    1.0, 0.0, 0.0);
-    B = new Point(1.0, 0.0, 0.0,    0.0, 0.0, 1.0);
-    C = new Point(1.0, 1.0, 0.0);
-    S1 = new Segment(*A,*B);
-    S2 = new Segment(*A,*C);
-    S3 = new Segment(*C,*B);
 
 	m_timer = new QTimer(this);
 	m_timer->setInterval(50);  // msec
@@ -46,9 +40,6 @@ myOpenGLWidget::~myOpenGLWidget()
 	qDebug() << "destroy GLArea";
 
 	delete m_timer;
-
-    delete A;
-    delete B;
 
 	// Contrairement aux méthodes virtuelles initializeGL, resizeGL et repaintGL,
 	// dans le destructeur le contexte GL n'est pas automatiquement rendu courant.
@@ -86,11 +77,15 @@ void myOpenGLWidget::doProjection()
 
 void myOpenGLWidget::makeGLObjects()
 {
+    A = new Point(-2.0, 0.0, 0.0);
+    B = new Point(-1.0, 1.0, 0.0);
+    C = new Point(1.0, 1.0, 0.0);
+    D = new Point(1.0, 0.0, 0.0);
+    C1 = new CourbeParametrique(*A,*B,*C,*D, 0.0, 1.0, 0.0);
+
     int decal=0;
 	QVector<GLfloat> vertData;
-    S1->start=decal;    decal+=S1->size;    S1->makeObject(&vertData);
-    S2->start=decal;    decal+=S2->size;    S2->makeObject(&vertData);
-    S3->start=decal;    decal+=S3->size;    S3->makeObject(&vertData);
+    C1->setStart(decal);    decal+=C1->getSize();    C1->makeObject(&vertData);
 	m_vbo.create();
 	m_vbo.bind();
 	//qDebug() << "vertData " << vertData.count () << " " << vertData.data ();
@@ -152,14 +147,13 @@ void myOpenGLWidget::paintGL()
     glPointSize (10.0f);
     glLineWidth(5.0f);
 
-    for (int i = 0; i < 3; ++i) {
-        glDrawArrays(GL_POINTS, i*2, 2);
-        glDrawArrays(GL_LINES, i*2, 2);
-    }
+    glDrawArrays(GL_POINTS, C1->getStart(), C1->getSizeCourbeParam());
+    glDrawArrays(GL_LINES, C1->getStart(), C1->getSize());
+
 
 
 	m_program->disableAttributeArray("posAttr");
-	m_program->disableAttributeArray("colAttr");
+    m_program->disableAttributeArray("colAttr");
 
 	m_program->release();
 }
@@ -169,7 +163,7 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
 	qDebug() << __FUNCTION__ << ev->text();
 
 	switch(ev->key()) {
-		case Qt::Key_Z :
+        case Qt::Key_Z :
 			m_angle += 1;
 			if (m_angle >= 360) m_angle -= 360;
 			update();
@@ -181,6 +175,26 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
 			break;
 		case Qt::Key_R :
 			break;
+        case Qt::Key_Right :
+            qDebug() << "right";
+            dx+=0.1;
+            break;
+        case Qt::Key_Left :
+            qDebug() << "left";
+            dx-=0.1;
+            break;
+        case Qt::Key_Up :
+            qDebug() << "up";
+            dy+=0.1;
+            break;
+        case Qt::Key_Down :
+            qDebug() << "down";
+            dy-=0.1;
+            break;
+        case Qt::Key_Return :
+            makeGLObjects();
+            update();
+            break;
 	}
 }
 

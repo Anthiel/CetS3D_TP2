@@ -8,10 +8,14 @@ CourbeParametrique::CourbeParametrique(Point pA, Point pB, Point pC, Point pD, f
     this->C = pC;
     this->D = pD;
 
-    A.setColor(r, g, b);
-    B.setColor(r, g, b);
-    C.setColor(r, g, b);
-    D.setColor(r, g, b);
+    this->r=r;
+    this->g=g;
+    this->b=b;
+
+    A.setColor(r*0.8, g*0.8, b*0.8);
+    B.setColor(r*0.8, g*0.8, b*0.8);
+    C.setColor(r*0.8, g*0.8, b*0.8);
+    D.setColor(r*0.8, g*0.8, b*0.8);
 
     S1 = new Segment(A, B);
     S2 = new Segment(B, C);
@@ -42,7 +46,7 @@ void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
 void CourbeParametrique::createListPoint(){
     for(int i= 0; i <= precision; i++){
         pointTmp = bezier(i);
-        Point *tmp = new Point(pointTmp[0],pointTmp[1],pointTmp[2], 0.0, 0.0, 1.0);
+        Point *tmp = new Point(pointTmp[0],pointTmp[1],pointTmp[2], r, g, b);
         listPoint.push_back(*tmp);
     }
     for(int i = 0; i < precision; i++){
@@ -58,6 +62,10 @@ void CourbeParametrique::setStart(int start){
 
 int CourbeParametrique::getSize(){
     return size;
+}
+
+int CourbeParametrique::getSizeCourbeParam(){
+    return sizeCourbeParam;
 }
 
 int CourbeParametrique::getStart(){

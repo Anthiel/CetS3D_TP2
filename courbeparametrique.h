@@ -12,13 +12,14 @@ public:
     void setStart(int start);
     int getStart();
     int getSize();
-
+    int getSizeCourbeParam();
 
     std::vector<float> bezier(float i);
     void createListPoint();
 
 private:
     Point A,B,C,D;
+    float r,g,b;
     int precision = 15;
     int nbsegment = 0;
 
@@ -27,8 +28,9 @@ private:
     std::vector<Segment> listSegment;
 
 
-    int variableSize = 0;
-    int size = 6+variableSize;
+    int variableSize = (precision)*2;
+    int sizeCourbeParam=6;
+    int size = sizeCourbeParam+variableSize;
     int start;
 
     Segment *S1;

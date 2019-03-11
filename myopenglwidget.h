@@ -10,7 +10,7 @@
 #include <QOpenGLFunctions>
 #include <QOpenGLBuffer>
 #include <QOpenGLShaderProgram>
-#include "segment.h"
+#include "courbeparametrique.h"
 
 class myOpenGLWidget : public QOpenGLWidget,
 			   protected QOpenGLFunctions
@@ -44,16 +44,16 @@ private:
 	double m_angle = 0;
 	QTimer *m_timer = nullptr;
 	double m_ratio = 1;
+
+    float dx=0;
+    float dy=0;
+
     Point *A;
     Point *B;
     Point *C;
     Point *D;
     Point *E;
-    Segment *S1;
-    Segment *S2;
-    Segment *S3;
-    Segment *S4;
-    int nbSegment=3;
+    CourbeParametrique *C1;
 
 	//RR matrices utiles
 	QMatrix4x4 m_modelView;
