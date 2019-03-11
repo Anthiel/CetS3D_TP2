@@ -44,6 +44,7 @@ public:
 	void setZ(const float&);
     void set(const float *);
     void setColor(const float * t);
+    void setColor(float r, float g, float b);
 
 	friend std::ostream& operator<<(std::ostream&, const Point&);
 

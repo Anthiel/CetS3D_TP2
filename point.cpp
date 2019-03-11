@@ -100,6 +100,13 @@ void Point::set(const float * t)
 		coords[i] = t[i];
 }
 
+void Point::setColor(float r, float g, float b)
+{
+    color[0] = r;
+    color[1] = g;
+    color[2] = b;
+}
+
 void Point::setColor(const float * t)
 {
     for (unsigned i=0; i<3; ++i)
