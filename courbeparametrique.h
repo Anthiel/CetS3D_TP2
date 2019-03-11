@@ -1,14 +1,13 @@
 #ifndef COURBEPARAMETRIQUE_H
 #define COURBEPARAMETRIQUE_H
 
-#include "point.h"
 #include "segment.h"
 
 class CourbeParametrique
 {
 public:
     CourbeParametrique(Point pA, Point pB, Point pC, Point pD, float r, float g, float b);
-    void makeObjects(QVector<GLfloat> *vertData);
+    void makeObject(QVector<GLfloat> *vertData);
     void setStart(int start);
     int getSize();
 private:
@@ -17,9 +16,9 @@ private:
     int size = 6+variableSize;
     int start;
 
-    Segment S1;
-    Segment S2;
-    Segment S3;
+    Segment *S1;
+    Segment *S2;
+    Segment *S3;
 };
 
 #endif // COURBEPARAMETRIQUE_H
