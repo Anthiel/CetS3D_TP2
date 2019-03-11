@@ -2,6 +2,7 @@
 #define COURBEPARAMETRIQUE_H
 
 #include "segment.h"
+#include <math.h>
 
 class CourbeParametrique
 {
@@ -11,7 +12,20 @@ public:
     void setStart(int start);
     int getStart();
     int getSize();
+
+
+    std::vector<float> bezier(float i);
+    void createListPoint();
+
 private:
+    Point A,B,C,D;
+    int precision = 15;
+    int nbsegment = 0;
+
+    std::vector<float> pointTmp;
+    std::vector<Point> listPoint;
+    std::vector<Segment> listSegment;
+
 
     int variableSize = 0;
     int size = 6+variableSize;
