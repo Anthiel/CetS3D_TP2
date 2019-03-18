@@ -13,6 +13,7 @@ public:
     int getStart();
     int getSize();
     int getSizeCourbeParam();
+    Point getPoint(int numPoint);
 
     std::vector<float> bezier(float i);
     void createListPoint();
@@ -20,7 +21,7 @@ public:
 private:
     Point A,B,C,D;
     float r,g,b;
-    int precision = 15;
+    int precision = 2;
     int nbsegment = 0;
 
     std::vector<float> pointTmp;
