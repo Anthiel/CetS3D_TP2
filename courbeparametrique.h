@@ -15,13 +15,19 @@ public:
     int getSizeCourbeParam();
     Point getPoint(int numPoint);
 
+    std::vector<float> SoustractionVec(std::vector<float> p1, std::vector<float> p2);
+    std::vector<float> ProduitVec(std::vector<float> p1, std::vector<float> p2);
+    float ProduitScalaire(std::vector<float> p1, std::vector<float> p2);
+
+    float GetAngle(float i);
+    std::vector<float> tauxAccroiss(float i);
     std::vector<float> bezier(float i);
     void createListPoint();
 
 private:
     Point A,B,C,D;
     float r,g,b;
-    int precision = 2;
+    float precision = 15;
     int nbsegment = 0;
 
     std::vector<float> pointTmp;
