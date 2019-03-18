@@ -14,6 +14,11 @@ public:
     int getSize();
     int getSizeCourbeParam();
 
+    std::vector<float> SoustractionVec(std::vector<float> p1, std::vector<float> p2);
+    std::vector<float> ProduitVec(std::vector<float> p1, std::vector<float> p2);
+    float ProduitScalaire(std::vector<float> p1, std::vector<float> p2);
+
+    float GetAngle(float i);
     std::vector<float> tauxAccroiss(float i);
     std::vector<float> bezier(float i);
     void createListPoint();
