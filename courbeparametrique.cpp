@@ -24,6 +24,25 @@ CourbeParametrique::CourbeParametrique(Point pA, Point pB, Point pC, Point pD, f
 
 }
 
+std::vector<float> CourbeParametrique::tauxAccroiss(float i){
+    double h = 1/1000000.0;
+    std::vector<float> pointDeriv;
+    std::vector<float> point1;
+    std::vector<float> point2;
+    point1 = bezier(i+h);
+    point2 = bezier(i);
+
+    for(int j = 0; j<3;j++){
+        qDebug() << "\t point1 = " << point1.at(j);
+        qDebug() << "\t point2 = " << point2.at(j);
+        qDebug() << "\t h = " << h;
+
+        pointDeriv.push_back((point1.at(j)-point2.at(j))/h);
+    }
+    qDebug() << "Taux Accroissement du point" << i << " : " << pointDeriv;
+    return pointDeriv;
+}
+
 std::vector<float> CourbeParametrique::bezier(float i){
     std::vector<float> point;
     float t = i/precision;
@@ -46,6 +65,8 @@ void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
 void CourbeParametrique::createListPoint(){
     for(int i= 0; i <= precision; i++){
         pointTmp = bezier(i);
+        tauxAccroiss(i);
+
         Point *tmp = new Point(pointTmp[0],pointTmp[1],pointTmp[2], r, g, b);
         listPoint.push_back(*tmp);
     }

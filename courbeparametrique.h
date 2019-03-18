@@ -14,6 +14,7 @@ public:
     int getSize();
     int getSizeCourbeParam();
 
+    std::vector<float> tauxAccroiss(float i);
     std::vector<float> bezier(float i);
     void createListPoint();
 
