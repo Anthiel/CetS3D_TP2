@@ -26,7 +26,7 @@ public:
 private:
     Point A,B,C,D;
     float r,g,b;
-    int precision = 15;
+    float precision = 15;
     int nbsegment = 0;
 
     std::vector<float> pointTmp;

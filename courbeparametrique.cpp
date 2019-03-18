@@ -50,6 +50,13 @@ float CourbeParametrique::GetAngle(float i){
     std::vector<float> point2 = bezier(i+1/precision);
     std::vector<float> tauxAccroi = tauxAccroiss(i);
     std::vector<float> pointT = SoustractionVec(point2, point1);
+
+    qDebug() << "\t i : " << i;
+    qDebug() << "\t point 1 : " << point1 << "\t point 2 : " << point2;
+    qDebug() << "\t point T : " << pointT;
+    qDebug() << "\t Taux Accroi : " << tauxAccroi;
+    qDebug() << "\t ProduitScalaire("<<tauxAccroi<<","<<pointT<<") : " << ProduitScalaire(tauxAccroi, pointT);
+
     return acos(fabs(ProduitScalaire(tauxAccroi, pointT)));
 }
 
@@ -62,13 +69,13 @@ std::vector<float> CourbeParametrique::tauxAccroiss(float i){
     point2 = bezier(i);
 
     for(int j = 0; j<3;j++){
-        qDebug() << "\t point1 = " << point1.at(j);
-        qDebug() << "\t point2 = " << point2.at(j);
-        qDebug() << "\t h = " << h;
+        //qDebug() << "\t point1 = " << point1.at(j);
+        //qDebug() << "\t point2 = " << point2.at(j);
+        //qDebug() << "\t h = " << h;
 
         pointDeriv.push_back((point1.at(j)-point2.at(j))/h);
     }
-    qDebug() << "Taux Accroissement du point" << i << " : " << pointDeriv;
+    //qDebug() << "Taux Accroissement du point" << i << " : " << pointDeriv;
     return pointDeriv;
 }
 
