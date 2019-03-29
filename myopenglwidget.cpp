@@ -77,15 +77,53 @@ void myOpenGLWidget::doProjection()
 
 void myOpenGLWidget::makeGLObjects()
 {
-    A = new Point(-2.0, 0.0, 0.0);
-    B = new Point(-1.0, 1.0, 0.0);
-    C = new Point(1.0, 1.0, 0.0);
-    D = new Point(1.0, 0.0, 0.0);
-    C1 = new CourbeParametrique(*A,*B,*C,*D, 0.0, 1.0, 0.0);
+    if (firstDraw){
+        A = new Point(-1.0, 0.0, 0.0);
+        B = new Point(-1.0, 2.0, 0.0);
+        C = new Point(1.0, 2.0, 0.0);
+        D = new Point(1.0, 0.0, 0.0);
+        E = new Point(0.0, 0.0, 0.0,0,1,1);
+        F = new Point(0.0, 0.0, 0.0,0,1,1);
+        C1 = new CourbeParametrique(*A,*B,*C,*D, 0.0, 1.0, 0.0);
+        firstDraw=false;
+    }
+    else{
+        if(editing){
+            *E = C1->getPoint(numPoint);
+            E->setColor(0,1.0,1.0);
+            F->setX(E->getX()+dx);
+            F->setY(E->getY()+dy);
+            F->setZ(E->getZ());
+        }
+        else{
+            switch (numPoint) {
+            case 0:
+                *A=*F;
+                break;
+            case 1:
+                *B=*F;
+                break;
+            case 2:
+                *C=*F;
+                break;
+            case 3:
+                *D=*F;
+                break;
+            default:
+                *A=*F;
+            }
+            C1 = new CourbeParametrique(*A,*B,*C,*D, 0.0, 1.0, 0.0);
+        }
+    }
 
     int decal=0;
-	QVector<GLfloat> vertData;
+    QVector<GLfloat> vertData;
     C1->setStart(decal);    decal+=C1->getSize();    C1->makeObject(&vertData);
+
+    if(editing){
+        E->makeObject(&vertData);
+        F->makeObject(&vertData);
+    }
 	m_vbo.create();
 	m_vbo.bind();
 	//qDebug() << "vertData " << vertData.count () << " " << vertData.data ();
@@ -144,11 +182,18 @@ void myOpenGLWidget::paintGL()
 	m_program->setAttributeBuffer("colAttr", GL_FLOAT, 3 * sizeof(GLfloat), 3, 6 * sizeof(GLfloat));
 	m_program->enableAttributeArray("posAttr");
 	m_program->enableAttributeArray("colAttr");
+
+    if(editing){
+        glPointSize (15.0f);
+        glDrawArrays(GL_POINTS, C1->getSize(), 1);
+        glDrawArrays(GL_POINTS, C1->getSize()+1, 1);
+    }
     glPointSize (10.0f);
     glLineWidth(5.0f);
 
     glDrawArrays(GL_POINTS, C1->getStart(), C1->getSizeCourbeParam());
     glDrawArrays(GL_LINES, C1->getStart(), C1->getSize());
+
 
 
 
@@ -160,7 +205,7 @@ void myOpenGLWidget::paintGL()
 
 void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
 {
-	qDebug() << __FUNCTION__ << ev->text();
+    //qDebug() << __FUNCTION__ << ev->text();
 
 	switch(ev->key()) {
         case Qt::Key_Z :
@@ -177,21 +222,58 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
 			break;
         case Qt::Key_Right :
             qDebug() << "right";
+            editing=true;
             dx+=0.1;
+            makeGLObjects();
+            update();
             break;
         case Qt::Key_Left :
             qDebug() << "left";
+            editing=true;
             dx-=0.1;
+            makeGLObjects();
+            update();
             break;
         case Qt::Key_Up :
             qDebug() << "up";
+            editing=true;
             dy+=0.1;
+            makeGLObjects();
+            update();
             break;
         case Qt::Key_Down :
             qDebug() << "down";
+            editing=true;
             dy-=0.1;
+            makeGLObjects();
+            update();
+            break;
+        case Qt::Key_Plus :
+            qDebug() << "plus";
+            editing=true;
+            dx=0;
+            dy=0;
+            numPoint++;
+            if(numPoint>3)
+                numPoint=0;
+            makeGLObjects();
+            update();
+            break;
+        case Qt::Key_Minus :
+            qDebug() << "moins";
+            editing=true;
+            dx=0;
+            dy=0;
+            numPoint--;
+            if(numPoint<0)
+                numPoint=3;
+            makeGLObjects();
+            update();
             break;
         case Qt::Key_Return :
+            editing=false;
+            dx=0;
+            dy=0;
             makeGLObjects();
             update();
             break;
