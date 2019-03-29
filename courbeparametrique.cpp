@@ -114,23 +114,21 @@ Point CourbeParametrique::getPoint(int numPoint){
 void CourbeParametrique::setControlPointColor(){
 
     for (int i=0;i<16;++i) {
-        controlPoint[i].setColor(r*0.8, g*0.8, b*0.8);
+        controlPoint[i].setColor(0.8, 0.0, 0.0);
     }
 }
 
 void CourbeParametrique::makeControlSegment(){
-    sizeCourbeParam=3;
+    sizeCourbeParam=24;
     for (int j=0;j<4;++j) {
         for(int i=0;i<3;++i){
             controlSegment[3*j+i] = *new Segment(controlPoint[4*j+i],controlPoint[4*j+i+1]);
-            qDebug() << "segment" << 3*j+i << ":" << 4*j+i << 4*j+i+1;
         }
     }
 
     for (int j=0;j<4;++j) {
         for(int i=0;i<3;++i){
             controlSegment[12+3*j+i] = *new Segment(controlPoint[i*4+j],controlPoint[(i+1)*4+j]);
-            qDebug() << "segment" << 12+3*j+i << ":" << i*4+j << (i+1)*4+j;
         }
     }
 }

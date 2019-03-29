@@ -78,10 +78,22 @@ void myOpenGLWidget::doProjection()
 void myOpenGLWidget::makeGLObjects()
 {
     if (firstDraw){
-        controlPoints[0] = *new Point(-1.0, 0.0, 0.0);
-        controlPoints[1] = *new Point(-1.0, 2.0, 0.0);
-        controlPoints[2] = *new Point(1.0, 2.0, 0.0);
-        controlPoints[3] = *new Point(1.0, 0.0, 0.0);
+        controlPoints[0] =  *new Point(-1.0, 0.0, 0.5);
+        controlPoints[1] =  *new Point(-1.0, 2.0, 0.5);
+        controlPoints[2] =  *new Point(1.0,  2.0, 0.5);
+        controlPoints[3] =  *new Point(1.0,  0.0, 0.5);
+        controlPoints[4] =  *new Point(-1.0, 0.0, 0.0);
+        controlPoints[5] =  *new Point(-1.0, 2.0, 0.0);
+        controlPoints[6] =  *new Point(1.0,  2.0, 0.0);
+        controlPoints[7] =  *new Point(1.0,  0.0, 0.0);
+        controlPoints[8] =  *new Point(-1.0, 0.0, -0.5);
+        controlPoints[9] =  *new Point(-1.0, 2.0, -0.5);
+        controlPoints[10] = *new Point(1.0,  2.0, -0.5);
+        controlPoints[11] = *new Point(1.0,  0.0, -0.5);
+        controlPoints[12] = *new Point(-1.0, 0.0, -1.0);
+        controlPoints[13] = *new Point(-1.0, 2.0, -1.0);
+        controlPoints[14] = *new Point(1.0,  2.0, -1.0);
+        controlPoints[15] = *new Point(1.0,  0.0, -1.0);
         E = new Point(0.0, 0.0, 0.0,0,1,1);
         F = new Point(0.0, 0.0, 0.0,0,1,1);
         C1 = new CourbeParametrique(controlPoints, 0.0, 1.0, 0.0);
@@ -239,7 +251,7 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
             dx=0;
             dy=0;
             numPoint++;
-            if(numPoint>3)
+            if(numPoint>15)
                 numPoint=0;
             makeGLObjects();
             update();
@@ -251,7 +263,7 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
             dy=0;
             numPoint--;
             if(numPoint<0)
-                numPoint=3;
+                numPoint=15;
             makeGLObjects();
             update();
             break;
