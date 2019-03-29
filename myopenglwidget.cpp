@@ -78,13 +78,13 @@ void myOpenGLWidget::doProjection()
 void myOpenGLWidget::makeGLObjects()
 {
     if (firstDraw){
-        A = new Point(-1.0, 0.0, 0.0);
-        B = new Point(-1.0, 2.0, 0.0);
-        C = new Point(1.0, 2.0, 0.0);
-        D = new Point(1.0, 0.0, 0.0);
+        controlPoints[0] = *new Point(-1.0, 0.0, 0.0);
+        controlPoints[1] = *new Point(-1.0, 2.0, 0.0);
+        controlPoints[2] = *new Point(1.0, 2.0, 0.0);
+        controlPoints[3] = *new Point(1.0, 0.0, 0.0);
         E = new Point(0.0, 0.0, 0.0,0,1,1);
         F = new Point(0.0, 0.0, 0.0,0,1,1);
-        C1 = new CourbeParametrique(*A,*B,*C,*D, 0.0, 1.0, 0.0);
+        C1 = new CourbeParametrique(controlPoints, 0.0, 1.0, 0.0);
         firstDraw=false;
     }
     else{
@@ -96,23 +96,8 @@ void myOpenGLWidget::makeGLObjects()
             F->setZ(E->getZ());
         }
         else{
-            switch (numPoint) {
-            case 0:
-                *A=*F;
-                break;
-            case 1:
-                *B=*F;
-                break;
-            case 2:
-                *C=*F;
-                break;
-            case 3:
-                *D=*F;
-                break;
-            default:
-                *A=*F;
-            }
-            C1 = new CourbeParametrique(*A,*B,*C,*D, 0.0, 1.0, 0.0);
+            controlPoints[numPoint]=*F;
+            C1 = new CourbeParametrique(controlPoints, 0.0, 1.0, 0.0);
         }
     }
 
@@ -274,6 +259,7 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
             editing=false;
             dx=0;
             dy=0;
+            dz=0;
             makeGLObjects();
             update();
             break;

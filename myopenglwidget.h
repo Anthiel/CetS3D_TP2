@@ -45,10 +45,10 @@ private:
 	QTimer *m_timer = nullptr;
 	double m_ratio = 1;
 
-    float dx=0;
-    float dy=0;
+    float dx=0,dy=0,dz=0;
 
-    Point *A,*B,*C,*D,*E,*F;
+    Point controlPoints[16];
+    Point *E,*F;
     CourbeParametrique *C1;
     int numPoint=0;
 

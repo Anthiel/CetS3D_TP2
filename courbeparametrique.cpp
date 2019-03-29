@@ -1,27 +1,16 @@
 #include "courbeparametrique.h"
 #include <math.h>
-CourbeParametrique::CourbeParametrique(Point pA, Point pB, Point pC, Point pD, float r, float g, float b)
+CourbeParametrique::CourbeParametrique(Point *cPoint, float r, float g, float b)
 {
-
-    this->A = pA;
-    this->B = pB;
-    this->C = pC;
-    this->D = pD;
 
     this->r=r;
     this->g=g;
     this->b=b;
 
-    A.setColor(r*0.8, g*0.8, b*0.8);
-    B.setColor(r*0.8, g*0.8, b*0.8);
-    C.setColor(r*0.8, g*0.8, b*0.8);
-    D.setColor(r*0.8, g*0.8, b*0.8);
+    this->controlPoint=cPoint;
+    setControlPointColor();
 
-    S1 = new Segment(A, B);
-    S2 = new Segment(B, C);
-    S3 = new Segment(C, D);
-    nbsegment += 3;
-
+    makeControlSegment();
 }
 
 std::vector<float> CourbeParametrique::SoustractionVec(std::vector<float> p1, std::vector<float> p2){
@@ -82,20 +71,10 @@ std::vector<float> CourbeParametrique::tauxAccroiss(float i){
 std::vector<float> CourbeParametrique::bezier(float i){
     std::vector<float> point;
     float t = i/precision;
-    point.push_back(A.getX()*pow(1-t, 3)+3 * B.getX()*t*pow(1-t,2)+ 3*C.getX()*pow(t,2)*(1-t)+D.getX()*pow(t,3));
-    point.push_back(A.getY()*pow(1-t, 3)+3 * B.getY()*t*pow(1-t,2)+ 3*C.getY()*pow(t,2)*(1-t)+D.getY()*pow(t,3));
-    point.push_back(A.getZ()*pow(1-t, 3)+3 * B.getZ()*t*pow(1-t,2)+ 3*C.getZ()*pow(t,2)*(1-t)+D.getZ()*pow(t,3));
+    point.push_back(controlPoint[0].getX()*pow(1-t, 3)+3 * controlPoint[1].getX()*t*pow(1-t,2)+ 3*controlPoint[2].getX()*pow(t,2)*(1-t)+controlPoint[3].getX()*pow(t,3));
+    point.push_back(controlPoint[0].getY()*pow(1-t, 3)+3 * controlPoint[1].getY()*t*pow(1-t,2)+ 3*controlPoint[2].getY()*pow(t,2)*(1-t)+controlPoint[3].getY()*pow(t,3));
+    point.push_back(controlPoint[0].getZ()*pow(1-t, 3)+3 * controlPoint[1].getZ()*t*pow(1-t,2)+ 3*controlPoint[2].getZ()*pow(t,2)*(1-t)+controlPoint[3].getZ()*pow(t,3));
     return point;
-}
-
-void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
-    S1->makeObject(vertData);
-    S2->makeObject(vertData);
-    S3->makeObject(vertData);
-    createListPoint();
-    for(int i = 0; i < precision; i++){
-        listSegment[i].makeObject(vertData);
-    }
 }
 
 void CourbeParametrique::createListPoint(){
@@ -109,36 +88,65 @@ void CourbeParametrique::createListPoint(){
         Segment *tmp = new Segment(listPoint[i], listPoint[i+1]);
         listSegment.push_back(*tmp);
     }
-    nbsegment += precision;
+    nbsegment = precision;
 }
 
 void CourbeParametrique::setStart(int start){
     this->start = start;
 }
-
-int CourbeParametrique::getSize(){
-    return size;
-}
-
-int CourbeParametrique::getSizeCourbeParam(){
-    return sizeCourbeParam;
-}
-
 int CourbeParametrique::getStart(){
     return start;
 }
 
+int CourbeParametrique::getSize(){
+    return (nbsegment+sizeCourbeParam)*2;
+}
+
+int CourbeParametrique::getSizeCourbeParam(){
+    return sizeCourbeParam*2;
+}
+
 Point CourbeParametrique::getPoint(int numPoint){
-    switch (numPoint) {
-    case 0:
-        return A;
-    case 1:
-        return B;
-    case 2:
-        return C;
-    case 3:
-        return D;
-    default:
-        return A;
+    return controlPoint[numPoint];
+}
+
+
+void CourbeParametrique::setControlPointColor(){
+
+    for (int i=0;i<16;++i) {
+        controlPoint[i].setColor(r*0.8, g*0.8, b*0.8);
     }
 }
+
+void CourbeParametrique::makeControlSegment(){
+    sizeCourbeParam=3;
+    for (int j=0;j<4;++j) {
+        for(int i=0;i<3;++i){
+            controlSegment[3*j+i] = *new Segment(controlPoint[4*j+i],controlPoint[4*j+i+1]);
+            qDebug() << "segment" << 3*j+i << ":" << 4*j+i << 4*j+i+1;
+        }
+    }
+
+    for (int j=0;j<4;++j) {
+        for(int i=0;i<3;++i){
+            controlSegment[12+3*j+i] = *new Segment(controlPoint[i*4+j],controlPoint[(i+1)*4+j]);
+            qDebug() << "segment" << 12+3*j+i << ":" << i*4+j << (i+1)*4+j;
+        }
+    }
+}
+
+void CourbeParametrique::update(){
+    setControlPointColor();
+    makeControlSegment();
+}
+
+void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
+    for(int i = 0; i < sizeCourbeParam; i++){
+        controlSegment[i].makeObject(vertData);
+    }
+    createListPoint();
+    for(int i = 0; i < precision; i++){
+        listSegment[i].makeObject(vertData);
+    }
+}
+

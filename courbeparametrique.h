@@ -7,8 +7,11 @@
 class CourbeParametrique
 {
 public:
-    CourbeParametrique(Point pA, Point pB, Point pC, Point pD, float r, float g, float b);
+    CourbeParametrique(Point *controlPoint, float r, float g, float b);
     void makeObject(QVector<GLfloat> *vertData);
+    void makeControlSegment();
+    void setControlPointColor();
+    void update();
     void setStart(int start);
     int getStart();
     int getSize();
@@ -25,24 +28,19 @@ public:
     void createListPoint();
 
 private:
-    Point A,B,C,D;
+    Point *controlPoint;
+    Segment controlSegment[24];
     float r,g,b;
     float precision = 15;
-    int nbsegment = 0;
 
     std::vector<float> pointTmp;
     std::vector<Point> listPoint;
     std::vector<Segment> listSegment;
 
 
-    int variableSize = (precision)*2;
-    int sizeCourbeParam=6;
-    int size = sizeCourbeParam+variableSize;
+    int nbsegment = 0;
+    int sizeCourbeParam;
     int start;
-
-    Segment *S1;
-    Segment *S2;
-    Segment *S3;
 };
 
 #endif // COURBEPARAMETRIQUE_H
