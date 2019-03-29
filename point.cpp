@@ -126,17 +126,6 @@ void Point::setZ(const float& v)
 	setN(2, v);
 }
 
-void Point::makeObject(QVector<GLfloat> *vertData){
-    vertData->append(getX());
-    vertData->append(getY());
-    vertData->append(getZ());
-
-    vertData->append(getR());
-    vertData->append(getG());
-    vertData->append(getB());
-
-}
-
 Point& Point::operator= (const Point &p)
 {
     for (unsigned i=0; i<3; ++i){

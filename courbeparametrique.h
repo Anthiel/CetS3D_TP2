@@ -13,7 +13,6 @@ public:
     int getStart();
     int getSize();
     int getSizeCourbeParam();
-    Point getPoint(int numPoint);
 
     std::vector<float> SoustractionVec(std::vector<float> p1, std::vector<float> p2);
     std::vector<float> ProduitVec(std::vector<float> p1, std::vector<float> p2);
