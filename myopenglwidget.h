@@ -48,12 +48,11 @@ private:
     float dx=0;
     float dy=0;
 
-    Point *A;
-    Point *B;
-    Point *C;
-    Point *D;
-    Point *E;
+    Point *A,*B,*C,*D,*E,*F;
     CourbeParametrique *C1;
+    int numPoint=0;
+
+    bool editing=false,firstDraw=true;
 
 	//RR matrices utiles
 	QMatrix4x4 m_modelView;

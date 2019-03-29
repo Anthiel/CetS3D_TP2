@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <QDebug>
+#include <QOpenGLWidget>
 
 class Point
 {
@@ -45,6 +46,7 @@ public:
     void set(const float *);
     void setColor(const float * t);
     void setColor(float r, float g, float b);
+    void makeObject(QVector<GLfloat> *vertData);
 
 	friend std::ostream& operator<<(std::ostream&, const Point&);
 
