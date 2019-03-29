@@ -78,9 +78,9 @@ void myOpenGLWidget::doProjection()
 void myOpenGLWidget::makeGLObjects()
 {
     A = new Point(-2.0, 0.0, 0.0);
-    B = new Point(1.0, 1.0, 0.0);
-    C = new Point(1.0, -0.5, 0.0);
-    D = new Point(0.0, -0.5, 0.0);
+    B = new Point(-1.0, 1.0, 0.0);
+    C = new Point(1.0, 1.0, 0.0);
+    D = new Point(1.0, 0.0, 0.0);
     C1 = new CourbeParametrique(*A,*B,*C,*D, 0.0, 1.0, 0.0);
 
     int decal=0;

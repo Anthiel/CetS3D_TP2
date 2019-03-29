@@ -47,7 +47,7 @@ float CourbeParametrique::ProduitScalaire(std::vector<float> p1, std::vector<flo
 
 float CourbeParametrique::GetAngle(float i){
     std::vector<float> point1 = bezier(i);
-    std::vector<float> point2 = bezier(i+1);
+    std::vector<float> point2 = bezier(i+1/precision);
     std::vector<float> tauxAccroi = tauxAccroiss(i);
     std::vector<float> pointT = SoustractionVec(point2, point1);
 
@@ -101,8 +101,7 @@ void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
 void CourbeParametrique::createListPoint(){
     for(int i= 0; i <= precision; i++){
         pointTmp = bezier(i);
-        float angle = GetAngle(i);
-        qDebug() << "Angle en " << i << " : " << angle;
+        qDebug() << "Angle en " << i << " : " << GetAngle(i);
         Point *tmp = new Point(pointTmp[0],pointTmp[1],pointTmp[2], r, g, b);
         listPoint.push_back(*tmp);
     }
