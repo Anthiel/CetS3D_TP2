@@ -90,15 +90,16 @@ float CourbeParametrique::Bernstein(float u, int i, int n)
     return firstPart*secondPart;
 }
 
-std::vector<float> CourbeParametrique::SurfaceBezier(float u, float v, float ***EnsemblePoint, int n, int m){
+std::vector<float> CourbeParametrique::SurfaceBezier(float u, float v, int n, int m){
 
     std::vector<float> res;
+    res.push_back(0);     res.push_back(0);     res.push_back(0);
 
     for(int i = 0; i < n; i++){
         for(int j = 0; j < m; j++){
-            res[0] += (Bernstein(u, i, n) * Bernstein(v, j, m) * EnsemblePoint[i][j][0]);
-            res[1] += (Bernstein(u, i, n) * Bernstein(v, j, m) * EnsemblePoint[i][j][1]);
-            res[2] += (Bernstein(u, i, n) * Bernstein(v, j, m) * EnsemblePoint[i][j][2]);
+            res[0] += (Bernstein(u, i, n) * Bernstein(v, j, m) * controlPoint[n*i+j].getX());
+            res[1] += (Bernstein(u, i, n) * Bernstein(v, j, m) * controlPoint[n*i+j].getY());
+            res[2] += (Bernstein(u, i, n) * Bernstein(v, j, m) * controlPoint[n*i+j].getZ());
         }
     }
     return res;
@@ -107,16 +108,20 @@ std::vector<float> CourbeParametrique::SurfaceBezier(float u, float v, float ***
 
 void CourbeParametrique::createListPoint(){
     for(int i= 0; i <= precision; i++){
-        pointTmp = bezier(i);
-        qDebug() << "Angle en " << i << " : " << GetAngle(i);
-        Point *tmp = new Point(pointTmp[0],pointTmp[1],pointTmp[2], r, g, b);
-        listPoint.push_back(*tmp);
+        for(int j = 0; j <= precision; j++){
+            qDebug() << "début des surfaces i : " << i << " j : " << j;
+            pointTmp = SurfaceBezier(i/precision, j/precision, 4, 4);
+            qDebug() << "point tmp :" << pointTmp;
+            //qDebug() << "Angle en " << i << " : " << GetAngle(i);
+            Point *tmp = new Point(pointTmp[0],pointTmp[1],pointTmp[2], r, g, b);
+            listPoint.push_back(*tmp);
+        }
     }
-    for(int i = 0; i < precision; i++){
+    for(int i = 0; i < precision*precision; i++){
         Segment *tmp = new Segment(listPoint[i], listPoint[i+1]);
         listSegment.push_back(*tmp);
     }
-    nbsegment = precision;
+    nbsegment = precision*precision;
 }
 
 void CourbeParametrique::setStart(int start){
@@ -171,7 +176,7 @@ void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
         controlSegment[i].makeObject(vertData);
     }
     createListPoint();
-    for(int i = 0; i < precision; i++){
+    for(int i = 0; i < precision*precision; i++){
         listSegment[i].makeObject(vertData);
     }
 }

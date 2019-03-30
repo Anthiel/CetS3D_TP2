@@ -29,7 +29,7 @@ public:
 
     int factoriel(int n);
     float Bernstein(float u, int i, int n);
-    std::vector<float> SurfaceBezier(float u, float v, float ***EnsemblePoint, int n, int m);
+    std::vector<float> SurfaceBezier(float u, float v, int n, int m);
 
 
 
