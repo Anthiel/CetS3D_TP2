@@ -162,13 +162,16 @@ void myOpenGLWidget::paintGL()
 						 QVector3D(0.0f, 0.0f, 0.0f),    // Point camera looks towards
 						 QVector3D(0.0f, 1.0f, 0.0f));   // Up vector
 
-		m_projection.setToIdentity ();
-		m_projection.perspective(70.0, width() / height(), 0.1, 100.0); //ou m_ratio
+        m_projection.setToIdentity ();
+        m_projection.perspective(70.0, width() / height(), 0.1, 100.0); //ou m_ratio
+
 
 		//m_model.translate(0, 0, -3.0);
-
+        m_modelView.translate(m_x,m_y,m_z);
 		// Rotation de la scène pour l'animation
-		m_model.rotate(m_angle, 0, 1, 0);
+        m_modelView.rotate(m_angleX, 1, 0, 0);
+        m_modelView.rotate(m_angleY, 0, 1, 0);
+        m_modelView.rotate(m_angleZ, 0, 0, 1);
 
 		QMatrix4x4 m = m_projection * m_modelView * m_model;
 	///----------------------------
@@ -205,18 +208,60 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
     //qDebug() << __FUNCTION__ << ev->text();
 
 	switch(ev->key()) {
+        case Qt::Key_6 :
+            m_angleY += 1;
+            if (m_angleY >= 360) m_angleY -= 360;
+            update();
+            break;
+        case Qt::Key_4 :
+            m_angleY -= 1;
+            if (m_angleY <= -1) m_angleY += 360;
+            update();
+            break;
+        case Qt::Key_5 :
+            m_angleX += 1;
+            if (m_angleX >= 360) m_angleX -= 360;
+            update();
+            break;
+        case Qt::Key_8 :
+            m_angleX -= 1;
+            if (m_angleX <= -1) m_angleX += 360;
+            update();
+            break;
+        case Qt::Key_7 :
+            m_angleZ += 1;
+            if (m_angleZ >= 360) m_angleZ -= 360;
+            update();
+            break;
+        case Qt::Key_9 :
+            m_angleZ -= 1;
+            if (m_angleZ <= -1) m_angleZ += 360;
+            update();
+            break;
+        case Qt::Key_S :
+            m_z-=0.1f;
+            update();
+            break;
         case Qt::Key_Z :
-			m_angle += 1;
-			if (m_angle >= 360) m_angle -= 360;
-			update();
-			break;
-		case Qt::Key_A :
-			if (m_timer->isActive())
-				m_timer->stop();
-			else m_timer->start();
-			break;
-		case Qt::Key_R :
-			break;
+            m_z+=0.1f;
+            update();
+            break;
+        case Qt::Key_Q :
+            m_x+=0.1f;
+            update();
+            break;
+        case Qt::Key_D :
+            m_x-=0.1f;
+            update();
+            break;
+        case Qt::Key_A :
+            m_y-=0.1f;
+            update();
+            break;
+        case Qt::Key_E :
+            m_y+=0.1f;
+            update();
+            break;
         case Qt::Key_Right :
             qDebug() << "right";
             editing=true;

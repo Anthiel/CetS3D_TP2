@@ -41,7 +41,8 @@ protected:
 	void mouseMoveEvent(QMouseEvent *ev) override;
 
 private:
-	double m_angle = 0;
+    double m_angleX = 0, m_angleY = 0, m_angleZ = 0;
+    double m_x=0, m_y=0, m_z=0;
 	QTimer *m_timer = nullptr;
 	double m_ratio = 1;
 
