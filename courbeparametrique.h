@@ -27,6 +27,13 @@ public:
     std::vector<float> bezier(float i);
     void createListPoint();
 
+    int factoriel(int n);
+    float Bernstein(float u, int i, int n);
+    std::vector<float> SurfaceBezier(float u, float v, float ***EnsemblePoint, int n, int m);
+
+
+
+
 private:
     Point *controlPoint;
     Segment controlSegment[24];

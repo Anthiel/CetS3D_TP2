@@ -77,6 +77,34 @@ std::vector<float> CourbeParametrique::bezier(float i){
     return point;
 }
 
+int CourbeParametrique::factoriel(int n)
+{
+  return (n == 1 || n == 0) ? 1 : factoriel(n - 1) * n;
+}
+
+float CourbeParametrique::Bernstein(float u, int i, int n)
+// u : paramètre entre [0,1], i et n les polynomes demandés
+{
+    float firstPart = factoriel(n)/(factoriel(i) * factoriel(n-i));
+    float secondPart = pow(u,i) *pow(1-u,n-i);
+    return firstPart*secondPart;
+}
+
+std::vector<float> CourbeParametrique::SurfaceBezier(float u, float v, float ***EnsemblePoint, int n, int m){
+
+    std::vector<float> res;
+
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < m; j++){
+            res[0] += (Bernstein(u, i, n) * Bernstein(v, j, m) * EnsemblePoint[i][j][0]);
+            res[1] += (Bernstein(u, i, n) * Bernstein(v, j, m) * EnsemblePoint[i][j][1]);
+            res[2] += (Bernstein(u, i, n) * Bernstein(v, j, m) * EnsemblePoint[i][j][2]);
+        }
+    }
+    return res;
+}
+
+
 void CourbeParametrique::createListPoint(){
     for(int i= 0; i <= precision; i++){
         pointTmp = bezier(i);
