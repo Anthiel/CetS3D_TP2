@@ -26,6 +26,7 @@ public:
     std::vector<float> tauxAccroiss(float i);
     std::vector<float> bezier(float i);
     void createListPoint();
+    void resetListPoint();
 
     int factoriel(int n);
     float Bernstein(float u, int i, int n);
@@ -44,7 +45,7 @@ private:
     std::vector<Point> listPoint;
     std::vector<Segment> listSegment;
 
-
+    bool needCalcul=true;
     int nbsegment = 0;
     int sizeCourbeParam;
     int start;

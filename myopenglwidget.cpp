@@ -105,17 +105,17 @@ void myOpenGLWidget::makeGLObjects()
             E->setColor(0,1.0,1.0);
             F->setX(E->getX()+dx);
             F->setY(E->getY()+dy);
-            F->setZ(E->getZ());
+            F->setZ(E->getZ()+dz);
         }
-        else{
+        else if(edited){
             controlPoints[numPoint]=*F;
-            C1 = new CourbeParametrique(controlPoints, 0.0, 1.0, 0.0);
+            C1->update();
         }
     }
-
     int decal=0;
     QVector<GLfloat> vertData;
     C1->setStart(decal);    decal+=C1->getSize();    C1->makeObject(&vertData);
+
 
     if(editing){
         E->makeObject(&vertData);
@@ -239,86 +239,111 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
             update();
             break;
         case Qt::Key_S :
-            m_z-=0.1f;
+            if(editing){
+                dz+=0.1;
+                makeGLObjects();
+            }else{
+                m_z-=0.1f;
+            }
             update();
             break;
         case Qt::Key_Z :
-            m_z+=0.1f;
+            if(editing){
+                dz-=0.1;
+                makeGLObjects();
+            }else{
+                m_z+=0.1f;
+            }
             update();
             break;
         case Qt::Key_Q :
-            m_x+=0.1f;
+            if(editing){
+                dx-=0.1;
+                makeGLObjects();
+            }else{
+                m_x+=0.1f;
+            }
             update();
             break;
         case Qt::Key_D :
-            m_x-=0.1f;
+            if(editing){
+                dx+=0.1;
+                makeGLObjects();
+            }else{
+                m_x-=0.1f;
+            }
             update();
             break;
-        case Qt::Key_A :
-            m_y-=0.1f;
-            update();
-            break;
-        case Qt::Key_E :
-            m_y+=0.1f;
-            update();
-            break;
-        case Qt::Key_Right :
-            qDebug() << "right";
-            editing=true;
-            dx+=0.1;
-            makeGLObjects();
-            update();
-            break;
-        case Qt::Key_Left :
-            qDebug() << "left";
-            editing=true;
-            dx-=0.1;
-            makeGLObjects();
-            update();
-            break;
-        case Qt::Key_Up :
-            qDebug() << "up";
-            editing=true;
-            dy+=0.1;
-            makeGLObjects();
-            update();
-            break;
-        case Qt::Key_Down :
-            qDebug() << "down";
-            editing=true;
-            dy-=0.1;
+
+        case Qt::Key_F:
+            if(editing){
+                dy-=0.1;
+                makeGLObjects();
+            }else{
+                m_y+=0.1f;
+            }
+                update();
+                break;
+        case Qt::Key_R:
+            if(editing){
+                dy+=0.1;
+                makeGLObjects();
+            }else{
+                m_y-=0.1f;
+            }
+                update();
+                break;
+        case Qt::Key_Space:
+            dx=0;
+            dy=0;
+            dz=0;
+            editing=!editing;
+            edited=false;
             makeGLObjects();
             update();
             break;
         case Qt::Key_Plus :
-            qDebug() << "plus";
-            editing=true;
-            dx=0;
-            dy=0;
-            numPoint++;
-            if(numPoint>15)
-                numPoint=0;
-            makeGLObjects();
-            update();
+            if (editing){
+                dx=0;
+                dy=0;
+                dz=0;
+                numPoint++;
+                if(numPoint>15)
+                    numPoint=0;
+                makeGLObjects();
+                update();
+            }
             break;
         case Qt::Key_Minus :
-            qDebug() << "moins";
-            editing=true;
-            dx=0;
-            dy=0;
-            numPoint--;
-            if(numPoint<0)
-                numPoint=15;
-            makeGLObjects();
-            update();
+            if (editing){
+                dx=0;
+                dy=0;
+                dz=0;
+                numPoint--;
+                if(numPoint<0)
+                    numPoint=15;
+                makeGLObjects();
+                update();
+            }
             break;
         case Qt::Key_Return :
-            editing=false;
-            dx=0;
-            dy=0;
-            dz=0;
-            makeGLObjects();
-            update();
+            if (editing){
+                editing=false;
+                edited=true;
+                dx=0;
+                dy=0;
+                dz=0;
+                makeGLObjects();
+                update();
+            }else{
+                m_x=0;
+                m_y=0;
+                m_z=0;
+                m_angleX=0;
+                m_angleY=0;
+                m_angleZ=0;
+                update();
+            }
             break;
 	}
 }
