@@ -117,11 +117,13 @@ void CourbeParametrique::createListPoint(){
             listPoint.push_back(*tmp);
         }
     }
-    for(int i = 0; i < precision*precision; i++){
-        Segment *tmp = new Segment(listPoint[i], listPoint[i+1]);
-        listSegment.push_back(*tmp);
+    for(int i= 0; i < precision; i++){
+        for(int j = 0; j < precision; j++){
+            Segment *tmp = new Segment(listPoint[i*(precision+1)+j], listPoint[i*(precision+1)+j+1]);
+            listSegment.push_back(*tmp);
+        }
     }
-    nbsegment = precision*precision;
+    nbsegment = (precision+1)*(precision+1);
 }
 
 void CourbeParametrique::resetListPoint(){

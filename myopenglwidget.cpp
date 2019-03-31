@@ -78,22 +78,22 @@ void myOpenGLWidget::doProjection()
 void myOpenGLWidget::makeGLObjects()
 {
     if (firstDraw){
-        controlPoints[0] =  *new Point(-1.0, 0.0, 0.5);
-        controlPoints[1] =  *new Point(-1.0, 2.0, 0.5);
-        controlPoints[2] =  *new Point(1.0,  2.0, 0.5);
-        controlPoints[3] =  *new Point(1.0,  0.0, 0.5);
-        controlPoints[4] =  *new Point(-1.0, 0.0, 0.0);
-        controlPoints[5] =  *new Point(-1.0, 2.0, 0.0);
-        controlPoints[6] =  *new Point(1.0,  2.0, 0.0);
-        controlPoints[7] =  *new Point(1.0,  0.0, 0.0);
-        controlPoints[8] =  *new Point(-1.0, 0.0, -0.5);
-        controlPoints[9] =  *new Point(-1.0, 2.0, -0.5);
-        controlPoints[10] = *new Point(1.0,  2.0, -0.5);
-        controlPoints[11] = *new Point(1.0,  0.0, -0.5);
-        controlPoints[12] = *new Point(-1.0, 0.0, -1.0);
-        controlPoints[13] = *new Point(-1.0, 2.0, -1.0);
-        controlPoints[14] = *new Point(1.0,  2.0, -1.0);
-        controlPoints[15] = *new Point(1.0,  0.0, -1.0);
+        controlPoints[0] =  *new Point(-2.0, -1.0, 0.5);
+        controlPoints[1] =  *new Point(-2.0, 1.0, 0.5);
+        controlPoints[2] =  *new Point(-1.0, 1.0, 0.5);
+        controlPoints[3] =  *new Point(-1.0, -1.0, 0.5);
+        controlPoints[4] =  *new Point(-2.0, -1.0, 0.0);
+        controlPoints[5] =  *new Point(-2.0, 1.0, 0.0);
+        controlPoints[6] =  *new Point(-1.0, 1.0, 0.0);
+        controlPoints[7] =  *new Point(-1.0, -1.0, 0.0);
+        controlPoints[8] =  *new Point(-2.0, -1.0, -0.5);
+        controlPoints[9] =  *new Point(-2.0, 1.0, -0.5);
+        controlPoints[10] = *new Point(-1.0, 1.0, -0.5);
+        controlPoints[11] = *new Point(-1.0, -1.0, -0.5);
+        controlPoints[12] = *new Point(-2.0, -1.0, -1.0);
+        controlPoints[13] = *new Point(-2.0, 1.0, -1.0);
+        controlPoints[14] = *new Point(-1.0, 1.0, -1.0);
+        controlPoints[15] = *new Point(-1.0, -1.0, -1.0);
         E = new Point(0.0, 0.0, 0.0,0,1,1);
         F = new Point(0.0, 0.0, 0.0,0,1,1);
         C1 = new CourbeParametrique(controlPoints, 0.0, 1.0, 0.0);
@@ -114,7 +114,7 @@ void myOpenGLWidget::makeGLObjects()
     }
     int decal=0;
     QVector<GLfloat> vertData;
-    C1->setStart(decal);    decal+=C1->getSize();    C1->makeObject(&vertData);
+    C1->makeObject(&vertData);     C1->setStart(decal);    decal+=C1->getSize();
 
 
     if(editing){
@@ -184,14 +184,14 @@ void myOpenGLWidget::paintGL()
 	m_program->enableAttributeArray("colAttr");
 
     if(editing){
-        glPointSize (15.0f);
+        glPointSize (10.0f);
         glDrawArrays(GL_POINTS, C1->getSize(), 1);
         glDrawArrays(GL_POINTS, C1->getSize()+1, 1);
     }
-    glPointSize (10.0f);
-    glLineWidth(5.0f);
+    glPointSize (5.0f);
+    glLineWidth(2.0f);
 
-    glDrawArrays(GL_POINTS, C1->getStart(), C1->getSizeCourbeParam());
+    glDrawArrays(GL_POINTS, C1->getStart(), C1->getSize());//C1->getSizeCourbeParam()
     glDrawArrays(GL_LINES, C1->getStart(), C1->getSize());
 
 
