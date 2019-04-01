@@ -1,5 +1,6 @@
 #include "courbeparametrique.h"
 #include <math.h>
+
 CourbeParametrique::CourbeParametrique(Point *cPoint, float r, float g, float b)
 {
 
@@ -194,4 +195,3 @@ void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
         qDebug() << i;
     }
 }
-

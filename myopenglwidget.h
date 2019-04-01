@@ -65,6 +65,27 @@ private:
 
 	void makeGLObjects();
 	void tearGLObjects();
+
+private slots:
+    void setPasHomogene(int value);
+    void setU(double value);
+    void setV(double value);
+
+    void translateForward();
+    void translateLeft();
+    void translateRight();
+    void translateBackward();
+
+    void rotateForward();
+    void rotateLeft();
+    void rotateRight();
+    void rotateBackward();
+
+    void reset();
+    void editMode();
+
+    void previousPoint();
+    void nextPoint();
 };
 
 

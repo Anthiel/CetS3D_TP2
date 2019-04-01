@@ -32,7 +32,6 @@ myOpenGLWidget::myOpenGLWidget(QWidget *parent) :
 	m_timer = new QTimer(this);
 	m_timer->setInterval(50);  // msec
 	connect (m_timer, SIGNAL(timeout()), this, SLOT(onTimeout()));
-
 }
 
 myOpenGLWidget::~myOpenGLWidget()
@@ -193,7 +192,7 @@ void myOpenGLWidget::paintGL()
         glDrawArrays(GL_POINTS, C1->getSize()+1, 1);
         glDrawArrays(GL_POINTS, C1->getSize()+2, 1);
     }
-    glPointSize (7.0f);
+    glPointSize (5.0f);
     glLineWidth(2.0f);
 
     glDrawArrays(GL_POINTS, C1->getStart(), C1->getSizeCourbeParam());
@@ -214,24 +213,16 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
 
 	switch(ev->key()) {
         case Qt::Key_6 :
-            m_angleY += 1;
-            if (m_angleY >= 360) m_angleY -= 360;
-            update();
+            rotateRight();
             break;
         case Qt::Key_4 :
-            m_angleY -= 1;
-            if (m_angleY <= -1) m_angleY += 360;
-            update();
+            rotateLeft();
             break;
         case Qt::Key_5 :
-            m_angleX += 1;
-            if (m_angleX >= 360) m_angleX -= 360;
-            update();
+            rotateBackward();
             break;
         case Qt::Key_8 :
-            m_angleX -= 1;
-            if (m_angleX <= -1) m_angleX += 360;
-            update();
+            rotateForward();
             break;
         case Qt::Key_7 :
             m_angleZ += 1;
@@ -244,42 +235,17 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
             update();
             break;
         case Qt::Key_S :
-            if(editing){
-                dz+=0.1;
-                makeGLObjects();
-            }else{
-                m_z-=0.1f;
-            }
-            update();
+            translateBackward();
             break;
         case Qt::Key_Z :
-            if(editing){
-                dz-=0.1;
-                makeGLObjects();
-            }else{
-                m_z+=0.1f;
-            }
-            update();
+            translateForward();
             break;
         case Qt::Key_Q :
-            if(editing){
-                dx-=0.1;
-                makeGLObjects();
-            }else{
-                m_x+=0.1f;
-            }
-            update();
+            translateLeft();
             break;
         case Qt::Key_D :
-            if(editing){
-                dx+=0.1;
-                makeGLObjects();
-            }else{
-                m_x-=0.1f;
-            }
-            update();
+            translateRight();
             break;
-
         case Qt::Key_F:
             if(editing){
                 dy-=0.1;
@@ -299,37 +265,13 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
                 update();
                 break;
         case Qt::Key_Space:
-            dx=0;
-            dy=0;
-            dz=0;
-            editing=!editing;
-            edited=false;
-            makeGLObjects();
-            update();
+            editMode();
             break;
         case Qt::Key_Plus :
-            if (editing){
-                dx=0;
-                dy=0;
-                dz=0;
-                numPoint++;
-                if(numPoint>15)
-                    numPoint=0;
-                makeGLObjects();
-                update();
-            }
+            nextPoint();
             break;
         case Qt::Key_Minus :
-            if (editing){
-                dx=0;
-                dy=0;
-                dz=0;
-                numPoint--;
-                if(numPoint<0)
-                    numPoint=15;
-                makeGLObjects();
-                update();
-            }
+            previousPoint();
             break;
         case Qt::Key_Escape :
             if (editing){
@@ -345,55 +287,146 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
             }
             break;
         case Qt::Key_Return :
-            if (editing){
-                editing=false;
-                edited=true;
-                dx=0;
-                dy=0;
-                dz=0;
-                makeGLObjects();
-                update();
-            }else{
-                m_x=0;
-                m_y=0;
-                m_z=0;
-                m_angleX=0;
-                m_angleY=0;
-                m_angleZ=0;
-                update();
-            }
+            reset();
             break;
 	}
 }
-
 void myOpenGLWidget::keyReleaseEvent(QKeyEvent *ev)
 {
 	qDebug() << __FUNCTION__ << ev->text();
 }
-
 void myOpenGLWidget::mousePressEvent(QMouseEvent *ev)
 {
 	qDebug() << __FUNCTION__ << ev->x() << ev->y() << ev->button();
 }
-
 void myOpenGLWidget::mouseReleaseEvent(QMouseEvent *ev)
 {
 	qDebug() << __FUNCTION__ << ev->x() << ev->y() << ev->button();
 }
-
 void myOpenGLWidget::mouseMoveEvent(QMouseEvent *ev)
 {
 	qDebug() << __FUNCTION__ << ev->x() << ev->y();
 }
-
 void myOpenGLWidget::onTimeout()
 {
 	qDebug() << __FUNCTION__ ;
 
 	update();
 }
+void myOpenGLWidget::setPasHomogene(int value){
+    qDebug() << "Pas homogène: " << value;
+}
+void myOpenGLWidget::setU(double value){
+    qDebug() << "U: " << value;
+}
+void myOpenGLWidget::setV(double value){
+        qDebug() << "V: " << value;
+}
+void myOpenGLWidget::translateForward(){
+    if(editing){
+        dz-=0.1;
+        makeGLObjects();
+    }else{
+        m_z+=0.1f;
+    }
+    update();
+}
+void myOpenGLWidget::translateLeft(){
+    if(editing){
+        dx-=0.1;
+        makeGLObjects();
+    }else{
+        m_x+=0.1f;
+    }
+    update();
+}
+void myOpenGLWidget::translateRight(){
+    if(editing){
+        dx+=0.1;
+        makeGLObjects();
+    }else{
+        m_x-=0.1f;
+    }
+    update();
+}
+void myOpenGLWidget::translateBackward(){
+    if(editing){
+        dz+=0.1;
+        makeGLObjects();
+    }else{
+        m_z-=0.1f;
+    }
+    update();
+}
+void myOpenGLWidget::rotateForward(){
+    m_angleX -= 1;
+    if (m_angleX <= -1) m_angleX += 360;
+    update();
+}
+void myOpenGLWidget::rotateLeft(){
+    m_angleY -= 1;
+    if (m_angleY <= -1) m_angleY += 360;
+    update();
+}
+void myOpenGLWidget::rotateRight(){
+    m_angleY += 1;
+    if (m_angleY >= 360) m_angleY -= 360;
+    update();
+}
+void myOpenGLWidget::rotateBackward(){
+    m_angleX += 1;
+    if (m_angleX >= 360) m_angleX -= 360;
+    update();
+}
+void myOpenGLWidget::reset(){
+    if (editing){
+        editing=false;
+        edited=true;
+        dx=0;
+        dy=0;
+        dz=0;
+        makeGLObjects();
 
-
-
-
-
+    }else{
+        m_x=0;
+        m_y=0;
+        m_z=0;
+        m_angleX=0;
+        m_angleY=0;
+        m_angleZ=0;
+    }
+    update();
+}
+void myOpenGLWidget::editMode(){
+    dx=0;
+    dy=0;
+    dz=0;
+    editing=!editing;
+    edited=false;
+    makeGLObjects();
+    update();
+}
+void myOpenGLWidget::previousPoint(){
+    if (editing){
+        dx=0;
+        dy=0;
+        dz=0;
+        numPoint--;
+        if(numPoint<0)
+            numPoint=15;
+        makeGLObjects();
+        update();
+    }
+}
+void myOpenGLWidget::nextPoint(){
+    if (editing){
+        dx=0;
+        dy=0;
+        dz=0;
+        numPoint++;
+        if(numPoint>15)
+            numPoint=0;
+        makeGLObjects();
+        update();
+    }
+}

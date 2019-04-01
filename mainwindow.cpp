@@ -13,6 +13,16 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+
+    connect(ui->settingsAction, &QAction::triggered, this, &MainWindow::settingsAction);
+}
+
+void  MainWindow::settingsAction(){
+    if(settings == nullptr){
+        settings = new Settings(this, ui->openGLWidget);
+        settings->show();
+    }
+    if(!settings->isVisible()) settings->show();
 }
 
 MainWindow::~MainWindow()
