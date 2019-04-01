@@ -82,12 +82,12 @@ void myOpenGLWidget::makeGLObjects()
         controlPoints[2] =  *new Point(+0.3, -0.5, +1.5);
         controlPoints[3] =  *new Point(+1.0, -0.5, +1.5);
         controlPoints[4] =  *new Point(-1.0, -0.5, +0.5);
-        controlPoints[5] =  *new Point(-0.3, +1.0, +0.5);
-        controlPoints[6] =  *new Point(+0.3, +1.0, +0.5);
+        controlPoints[5] =  *new Point(-0.3, +1.5, +0.5);
+        controlPoints[6] =  *new Point(+0.3, +1.5, +0.5);
         controlPoints[7] =  *new Point(+1.0, -0.5, +0.5);
         controlPoints[8] =  *new Point(-1.0, -0.5, -0.5);
-        controlPoints[9] =  *new Point(-0.3, +1.0, -0.5);
-        controlPoints[10] = *new Point(+0.3, +1.0, -0.5);
+        controlPoints[9] =  *new Point(-0.3, +0.5, -0.5);
+        controlPoints[10] = *new Point(+0.3, +0.5, -0.5);
         controlPoints[11] = *new Point(+1.0, -0.5, -0.5);
         controlPoints[12] = *new Point(-1.0, -0.5, -1.5);
         controlPoints[13] = *new Point(-0.3, -0.5, -1.5);
@@ -96,7 +96,7 @@ void myOpenGLWidget::makeGLObjects()
         E = new Point(0.0, 0.0, 0.0,0,1,1);
         F = new Point(0.0, 0.0, 0.0,0,1,1);
         G = new Point(0.0, 0.0, 0.0,1,0,1);
-        C1 = new CourbeParametrique(controlPoints, 0.0, 1.0, 0.0);
+        C1 = new CourbeParametrique(controlPoints, 0.0, 0.8, 0.0);
         firstDraw=false;
     }
     else{

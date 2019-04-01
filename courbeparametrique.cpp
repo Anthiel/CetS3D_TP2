@@ -1,6 +1,5 @@
 #include "courbeparametrique.h"
 #include <math.h>
-#include <QDebug>
 
 CourbeParametrique::CourbeParametrique(Point *cPoint, float r, float g, float b)
 {
@@ -43,10 +42,10 @@ float CourbeParametrique::GetAngle(float i){
     std::vector<float> pointT = SoustractionVec(point2, point1);
 
     qDebug() << "\t i : " << i;
-    qDebug() << "\t point 1 : " << point1.data() << "\t point 2 : " << point2.data();
-    qDebug() << "\t point T : " << pointT.data();
-    qDebug() << "\t Taux Accroi : " << tauxAccroi.data();
-    qDebug() << "\t ProduitScalaire("<<tauxAccroi.data() <<","<<pointT.data()<<") : " << ProduitScalaire(tauxAccroi, pointT);
+    qDebug() << "\t point 1 : " << point1 << "\t point 2 : " << point2;
+    qDebug() << "\t point T : " << pointT;
+    qDebug() << "\t Taux Accroi : " << tauxAccroi;
+    qDebug() << "\t ProduitScalaire("<<tauxAccroi<<","<<pointT<<") : " << ProduitScalaire(tauxAccroi, pointT);
 
     return acos(fabs(ProduitScalaire(tauxAccroi, pointT)));
 }
@@ -119,7 +118,14 @@ void CourbeParametrique::createListPoint(){
             listSegment.push_back(*tmp);
         }
     }
-    nbsegment = precision*(precision+1);
+    for(int i= 0; i <= precision; i++){
+        for(int j = 0; j < precision; j++){
+            Segment *tmp = new Segment(listPoint[i+j*(precision+1)], listPoint[i+(j+1)*(precision+1)]);
+            qDebug() <<"b" << i+j*(precision+1) << i+(j+1)*(precision+1) ;
+            listSegment.push_back(*tmp);
+        }
+    }
+    nbsegment = 2*precision*(precision+1);
 }
 
 void CourbeParametrique::resetListPoint(){
@@ -150,7 +156,7 @@ Point CourbeParametrique::getPoint(int numPoint){
 void CourbeParametrique::setControlPointColor(){
 
     for (int i=0;i<16;++i) {
-        controlPoint[i].setColor(0.8, 0.0, 0.0);
+        controlPoint[i].setColor(1.0, 0.0, 0.0);
     }
 }
 
@@ -184,8 +190,8 @@ void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
         createListPoint();
         needCalcul=false;
     }
-    for(int i = 0; i < precision*(precision+1); i++){
+    for(int i = 0; i < nbsegment; i++){
         listSegment[i].makeObject(vertData);
+        qDebug() << i;
     }
 }
-
