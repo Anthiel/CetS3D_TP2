@@ -39,7 +39,7 @@ private:
     Point *controlPoint;
     Segment controlSegment[24];
     float r,g,b;
-    float precision = 100;
+    float precision = 50;
 
     std::vector<Point> listPoint;
     std::vector<Segment> listSegment;

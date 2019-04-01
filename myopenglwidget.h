@@ -53,7 +53,7 @@ private:
     CourbeParametrique *C1;
     int numPoint=0;
 
-    bool editing=false,edited=true,firstDraw=true;
+    bool editing=false,firstDraw=true;
 
 	//RR matrices utiles
 	QMatrix4x4 m_modelView;

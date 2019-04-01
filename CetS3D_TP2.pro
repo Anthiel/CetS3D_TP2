@@ -11,8 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = CetS3D_TP2
 TEMPLATE = app
 
-LIBS += -lglut -lGLU
-
+LIBS += -lGLU32\
+        -lOpengl32
 
 
 # The following define makes your compiler emit warnings if you use

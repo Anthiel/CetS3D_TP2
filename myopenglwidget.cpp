@@ -108,10 +108,6 @@ void myOpenGLWidget::makeGLObjects()
             F->setZ(dz);
             (*F) += (*E);
         }
-        else if(edited){
-            controlPoints[numPoint]=*F;
-            C1->update();
-        }
     }
     int decal=0;
     QVector<GLfloat> vertData;
@@ -192,10 +188,13 @@ void myOpenGLWidget::paintGL()
         glDrawArrays(GL_POINTS, C1->getSize()+1, 1);
         glDrawArrays(GL_POINTS, C1->getSize()+2, 1);
     }
-    glPointSize (5.0f);
-    glLineWidth(2.0f);
+    glPointSize (8.0f);
+    glLineWidth(4.0f);
 
     glDrawArrays(GL_POINTS, C1->getStart(), C1->getSizeCourbeParam());
+    glDrawArrays(GL_LINES, C1->getStart(), C1->getSizeCourbeParam());
+
+    glLineWidth(2.0f);
     glDrawArrays(GL_LINES, C1->getStart(), C1->getSize());
 
 
@@ -381,7 +380,8 @@ void myOpenGLWidget::rotateBackward(){
 void myOpenGLWidget::reset(){
     if (editing){
         editing=false;
-        edited=true;
+        controlPoints[numPoint]=*F;
+        C1->update();
         dx=0;
         dy=0;
         dz=0;
@@ -402,7 +402,6 @@ void myOpenGLWidget::editMode(){
     dy=0;
     dz=0;
     editing=!editing;
-    edited=false;
     makeGLObjects();
     update();
 }
