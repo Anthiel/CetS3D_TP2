@@ -21,7 +21,11 @@ Settings::Settings(QWidget *parent, myOpenGLWidget* glarea) :
     connect(this, SIGNAL(rotationLeft()), glarea, SLOT(rotateLeft()));
     connect(this, SIGNAL(rotationRight()), glarea, SLOT(rotateRight()));
     connect(this, SIGNAL(rotationBackward()), glarea, SLOT(rotateBackward()));
+
     connect(this, SIGNAL(reset()), glarea, SLOT(reset()));
+    connect(this, SIGNAL(editMode()), glarea, SLOT(editMode()));
+    connect(this, SIGNAL(previousPoint()), glarea, SLOT(previousPoint()));
+    connect(this, SIGNAL(nextPoint()), glarea, SLOT(nextPoint()));
 
     ui->controlTranslationForward->setIcon(icon_up_arrow);
     ui->controlTranslationBackward->setIcon(icon_down_arrow);
@@ -123,4 +127,19 @@ void Settings::on_controlRotationBackward_clicked()
 void Settings::on_resetButton_clicked()
 {
     emit reset();
+}
+
+void Settings::on_editModeButton_clicked()
+{
+    emit editMode();
+}
+
+void Settings::on_nextPointButton_clicked()
+{
+    emit nextPoint();
+}
+
+void Settings::on_previousPointButton_clicked()
+{
+    emit previousPoint();
 }

@@ -46,6 +46,12 @@ private slots:
 
     void on_resetButton_clicked();
 
+    void on_editModeButton_clicked();
+
+    void on_nextPointButton_clicked();
+
+    void on_previousPointButton_clicked();
+
 private:
     Ui::Settings *ui;
 
@@ -67,6 +73,9 @@ signals:
     void rotationRight();
     void rotationBackward();
     void reset();
+    void editMode();
+    void previousPoint();
+    void nextPoint();
 };
 
 #endif // SETTINGS_H

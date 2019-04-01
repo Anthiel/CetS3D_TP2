@@ -246,7 +246,6 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
         case Qt::Key_D :
             translateRight();
             break;
-
         case Qt::Key_F:
             if(editing){
                 dy-=0.1;
@@ -266,37 +265,13 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
                 update();
                 break;
         case Qt::Key_Space:
-            dx=0;
-            dy=0;
-            dz=0;
-            editing=!editing;
-            edited=false;
-            makeGLObjects();
-            update();
+            editMode();
             break;
         case Qt::Key_Plus :
-            if (editing){
-                dx=0;
-                dy=0;
-                dz=0;
-                numPoint++;
-                if(numPoint>15)
-                    numPoint=0;
-                makeGLObjects();
-                update();
-            }
+            nextPoint();
             break;
         case Qt::Key_Minus :
-            if (editing){
-                dx=0;
-                dy=0;
-                dz=0;
-                numPoint--;
-                if(numPoint<0)
-                    numPoint=15;
-                makeGLObjects();
-                update();
-            }
+            previousPoint();
             break;
         case Qt::Key_Escape :
             if (editing){
@@ -316,46 +291,37 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
             break;
 	}
 }
-
 void myOpenGLWidget::keyReleaseEvent(QKeyEvent *ev)
 {
 	qDebug() << __FUNCTION__ << ev->text();
 }
-
 void myOpenGLWidget::mousePressEvent(QMouseEvent *ev)
 {
 	qDebug() << __FUNCTION__ << ev->x() << ev->y() << ev->button();
 }
-
 void myOpenGLWidget::mouseReleaseEvent(QMouseEvent *ev)
 {
 	qDebug() << __FUNCTION__ << ev->x() << ev->y() << ev->button();
 }
-
 void myOpenGLWidget::mouseMoveEvent(QMouseEvent *ev)
 {
 	qDebug() << __FUNCTION__ << ev->x() << ev->y();
 }
-
 void myOpenGLWidget::onTimeout()
 {
 	qDebug() << __FUNCTION__ ;
 
 	update();
 }
-
 void myOpenGLWidget::setPasHomogene(int value){
     qDebug() << "Pas homogène: " << value;
 }
-
 void myOpenGLWidget::setU(double value){
     qDebug() << "U: " << value;
 }
-
 void myOpenGLWidget::setV(double value){
         qDebug() << "V: " << value;
 }
-
 void myOpenGLWidget::translateForward(){
     if(editing){
         dz-=0.1;
@@ -365,7 +331,6 @@ void myOpenGLWidget::translateForward(){
     }
     update();
 }
-
 void myOpenGLWidget::translateLeft(){
     if(editing){
         dx-=0.1;
@@ -375,7 +340,6 @@ void myOpenGLWidget::translateLeft(){
     }
     update();
 }
-
 void myOpenGLWidget::translateRight(){
     if(editing){
         dx+=0.1;
@@ -385,7 +349,6 @@ void myOpenGLWidget::translateRight(){
     }
     update();
 }
-
 void myOpenGLWidget::translateBackward(){
     if(editing){
         dz+=0.1;
@@ -395,31 +358,26 @@ void myOpenGLWidget::translateBackward(){
     }
     update();
 }
-
 void myOpenGLWidget::rotateForward(){
     m_angleX -= 1;
     if (m_angleX <= -1) m_angleX += 360;
     update();
 }
-
 void myOpenGLWidget::rotateLeft(){
     m_angleY -= 1;
     if (m_angleY <= -1) m_angleY += 360;
     update();
 }
-
 void myOpenGLWidget::rotateRight(){
     m_angleY += 1;
     if (m_angleY >= 360) m_angleY -= 360;
     update();
 }
-
 void myOpenGLWidget::rotateBackward(){
     m_angleX += 1;
     if (m_angleX >= 360) m_angleX -= 360;
     update();
 }
-
 void myOpenGLWidget::reset(){
     if (editing){
         editing=false;
@@ -439,5 +397,36 @@ void myOpenGLWidget::reset(){
     }
     update();
 }
-
-
+void myOpenGLWidget::editMode(){
+    dx=0;
+    dy=0;
+    dz=0;
+    editing=!editing;
+    edited=false;
+    makeGLObjects();
+    update();
+}
+void myOpenGLWidget::previousPoint(){
+    if (editing){
+        dx=0;
+        dy=0;
+        dz=0;
+        numPoint--;
+        if(numPoint<0)
+            numPoint=15;
+        makeGLObjects();
+        update();
+    }
+}
+void myOpenGLWidget::nextPoint(){
+    if (editing){
+        dx=0;
+        dy=0;
+        dz=0;
+        numPoint++;
+        if(numPoint>15)
+            numPoint=0;
+        makeGLObjects();
+        update();
+    }
+}

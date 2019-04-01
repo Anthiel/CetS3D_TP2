@@ -82,6 +82,10 @@ private slots:
     void rotateBackward();
 
     void reset();
+    void editMode();
+
+    void previousPoint();
+    void nextPoint();
 };
 
 
