@@ -90,19 +90,16 @@ float CourbeParametrique::Bernstein(float u, int i, int n)
     return firstPart*secondPart;
 }
 
-std::vector<float> CourbeParametrique::SurfaceBezier(float u, float v, int n, int m){
+Point* CourbeParametrique::SurfaceBezier(float u, float v, int n, int m){
 
-    std::vector<float> res;
-    res.push_back(0);     res.push_back(0);     res.push_back(0);
+    Point *p= new Point(0,0,0,r,g,b);
 
     for(int i = 0; i < n; i++){
         for(int j = 0; j < m; j++){
-            res[0] += (Bernstein(u, i, n-1) * Bernstein(v, j, m-1) * controlPoint[n*i+j].getX());   // faire les calcul sur un point
-            res[1] += (Bernstein(u, i, n-1) * Bernstein(v, j, m-1) * controlPoint[n*i+j].getY());
-            res[2] += (Bernstein(u, i, n-1) * Bernstein(v, j, m-1) * controlPoint[n*i+j].getZ());
+            *p += (Bernstein(u, i, n-1) * Bernstein(v, j, m-1)) * controlPoint[n*i+j];
         }
     }
-    return res;
+    return p;
 }
 
 
@@ -110,10 +107,7 @@ void CourbeParametrique::createListPoint(){
     for(int i= 0; i <= precision; i++){
         for(int j = 0; j <= precision; j++){
             qDebug() << "début des surfaces i : " << i << " j : " << j;
-            pointTmp = SurfaceBezier(i/precision, j/precision, 4, 4);
-            qDebug() << "point tmp :" << pointTmp;
-            //qDebug() << "Angle en " << i << " : " << GetAngle(i);
-            Point *tmp = new Point(pointTmp[0],pointTmp[1],pointTmp[2], r, g, b);
+            Point *tmp = SurfaceBezier(i/precision, j/precision, 4, 4);
             listPoint.push_back(*tmp);
         }
     }

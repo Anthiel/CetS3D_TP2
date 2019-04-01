@@ -30,7 +30,7 @@ public:
 
     int factoriel(int n);
     float Bernstein(float u, int i, int n);
-    std::vector<float> SurfaceBezier(float u, float v, int n, int m);
+    Point* SurfaceBezier(float u, float v, int n, int m);
 
 
 
@@ -41,7 +41,6 @@ private:
     float r,g,b;
     float precision = 20;
 
-    std::vector<float> pointTmp;
     std::vector<Point> listPoint;
     std::vector<Segment> listSegment;
 

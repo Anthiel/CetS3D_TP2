@@ -26,7 +26,10 @@ public:
     Point(float x, float y, float z, float r=1.0, float g=1.0, float b=1.0);
 	Point(const Point&);
 
-	Point& operator= (const Point &);
+    Point& operator= (const Point &p);
+    Point& operator+= (const Point &p);
+    friend Point operator* (const float &f, const Point &p1);
+    friend Point operator+ (const Point &p1, const Point &p2);
 
 
 	float getN(unsigned) const;

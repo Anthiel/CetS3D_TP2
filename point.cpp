@@ -143,8 +143,35 @@ Point& Point::operator= (const Point &p)
         coords[i] = p.coords[i];
         color[i]  = p.color[i];
     }
+    return *this;
 
-return *this;
+}
+
+Point& Point::operator+= (const Point &p)
+{
+    for (unsigned i=0; i<3; ++i){
+        coords[i] += p.coords[i];
+    }
+    return *this;
+}
+
+Point operator* (const float &f, const Point &p1)
+{
+    Point p;
+    for (unsigned i=0; i<3; ++i){
+        p.coords[i] = f*  p1.coords[i];
+    }
+    return p;
+}
+
+Point operator+ (const Point &p1, const Point &p2)
+{
+    Point p;
+    for (unsigned i=0; i<3; ++i){
+        p.coords[i] = p1.coords[i] + p2.coords[i];
+        p.color[i] = ( p1.color[i] + p2.coords[i] )/2;
+    }
+    return p;
 }
 
 std::ostream& operator<<(std::ostream& out, const Point& p)
