@@ -117,7 +117,14 @@ void CourbeParametrique::createListPoint(){
             listSegment.push_back(*tmp);
         }
     }
-    nbsegment = precision*(precision+1);
+    for(int i= 0; i <= precision; i++){
+        for(int j = 0; j < precision; j++){
+            Segment *tmp = new Segment(listPoint[i+j*(precision+1)], listPoint[i+(j+1)*(precision+1)]);
+            qDebug() <<"b" << i+j*(precision+1) << i+(j+1)*(precision+1) ;
+            listSegment.push_back(*tmp);
+        }
+    }
+    nbsegment = 2*precision*(precision+1);
 }
 
 void CourbeParametrique::resetListPoint(){
@@ -148,7 +155,7 @@ Point CourbeParametrique::getPoint(int numPoint){
 void CourbeParametrique::setControlPointColor(){
 
     for (int i=0;i<16;++i) {
-        controlPoint[i].setColor(0.8, 0.0, 0.0);
+        controlPoint[i].setColor(1.0, 0.0, 0.0);
     }
 }
 
@@ -182,8 +189,9 @@ void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
         createListPoint();
         needCalcul=false;
     }
-    for(int i = 0; i < precision*(precision+1); i++){
+    for(int i = 0; i < nbsegment; i++){
         listSegment[i].makeObject(vertData);
+        qDebug() << i;
     }
 }
 
