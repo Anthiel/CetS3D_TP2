@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>252</width>
-    <height>408</height>
+    <height>405</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,111 +33,12 @@
             <number>2</number>
            </property>
            <property name="maximum">
-            <number>999</number>
+            <number>200</number>
+           </property>
+           <property name="value">
+            <number>10</number>
            </property>
           </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <spacer name="verticalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>10</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Intervalle paramétrique</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <item>
-              <widget class="QLabel" name="uLabel">
-               <property name="text">
-                <string>u</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QDoubleSpinBox" name="uSpinbox">
-               <property name="decimals">
-                <number>3</number>
-               </property>
-               <property name="maximum">
-                <double>1.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.010000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSlider" name="uSlider">
-               <property name="maximum">
-                <number>100</number>
-               </property>
-               <property name="pageStep">
-                <number>1</number>
-               </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <item>
-              <widget class="QLabel" name="vLabel">
-               <property name="text">
-                <string>v</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QDoubleSpinBox" name="vSpinbox">
-               <property name="decimals">
-                <number>3</number>
-               </property>
-               <property name="maximum">
-                <double>1.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.010000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSlider" name="vSlider">
-               <property name="maximum">
-                <number>100</number>
-               </property>
-               <property name="pageStep">
-                <number>1</number>
-               </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
          </item>
         </layout>
        </item>
@@ -155,6 +56,102 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_14">
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Intervalle paramétrique</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkShow">
+           <property name="text">
+            <string>show</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QLabel" name="uLabel">
+           <property name="text">
+            <string>u</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="uSpinbox">
+           <property name="decimals">
+            <number>3</number>
+           </property>
+           <property name="maximum">
+            <double>1.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.010000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="uSlider">
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="pageStep">
+            <number>1</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QLabel" name="vLabel">
+           <property name="text">
+            <string>v</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="vSpinbox">
+           <property name="decimals">
+            <number>3</number>
+           </property>
+           <property name="maximum">
+            <double>1.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.010000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="vSlider">
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="pageStep">
+            <number>1</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">

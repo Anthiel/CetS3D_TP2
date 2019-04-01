@@ -27,6 +27,8 @@ Settings::Settings(QWidget *parent, myOpenGLWidget* glarea) :
     connect(this, SIGNAL(previousPoint()), glarea, SLOT(previousPoint()));
     connect(this, SIGNAL(nextPoint()), glarea, SLOT(nextPoint()));
 
+    connect(this, SIGNAL(showIntervalParametrique(bool)), glarea, SLOT(showIntervalParametrique(bool)));
+
     ui->controlTranslationForward->setIcon(icon_up_arrow);
     ui->controlTranslationBackward->setIcon(icon_down_arrow);
     ui->controlTranslationLeft->setIcon(icon_left_arrow);
@@ -142,4 +144,9 @@ void Settings::on_nextPointButton_clicked()
 void Settings::on_previousPointButton_clicked()
 {
     emit previousPoint();
+}
+
+void Settings::on_checkShow_clicked(bool checked)
+{
+    emit showIntervalParametrique(checked);
 }

@@ -13,6 +13,7 @@ public:
     void setControlPointColor();
     void update();
     void setStart(int start);
+    void setPrecision(int pas);
     int getStart();
     int getSize();
     int getSizeCourbeParam();
@@ -39,7 +40,7 @@ private:
     Point *controlPoint;
     Segment controlSegment[24];
     float r,g,b;
-    float precision = 50;
+    float precision = 10;
 
     std::vector<Point> listPoint;
     std::vector<Segment> listSegment;

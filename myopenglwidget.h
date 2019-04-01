@@ -41,19 +41,20 @@ protected:
 	void mouseMoveEvent(QMouseEvent *ev) override;
 
 private:
-    double m_angleX = 0, m_angleY = 0, m_angleZ = 0;
-    double m_x=0, m_y=0, m_z=0;
 	QTimer *m_timer = nullptr;
 	double m_ratio = 1;
 
-    float dx=0,dy=0,dz=0;
+    double m_angleX = 0, m_angleY = 0, m_angleZ = 0;
+    double m_x=0, m_y=0, m_z=0;
+    double dx=0,dy=0,dz=0;
+    double u=0,v=0;
 
     Point controlPoints[16];
     Point *E,*F,*G;
     CourbeParametrique *C1;
     int numPoint=0;
 
-    bool editing=false,firstDraw=true;
+    bool editing=false,firstDraw=true,showInterval=false;
 
 	//RR matrices utiles
 	QMatrix4x4 m_modelView;
@@ -70,6 +71,7 @@ private slots:
     void setPasHomogene(int value);
     void setU(double value);
     void setV(double value);
+    void showIntervalParametrique(bool show);
 
     void translateForward();
     void translateLeft();

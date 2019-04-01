@@ -126,6 +126,10 @@ int CourbeParametrique::getStart(){
     return start;
 }
 
+void CourbeParametrique::setPrecision(int pas){
+    precision=pas;
+}
+
 int CourbeParametrique::getSize(){
     return (nbsegment+sizeCourbeParam)*2;
 }

@@ -52,6 +52,8 @@ private slots:
 
     void on_previousPointButton_clicked();
 
+    void on_checkShow_clicked(bool checked);
+
 private:
     Ui::Settings *ui;
 
@@ -76,6 +78,9 @@ signals:
     void editMode();
     void previousPoint();
     void nextPoint();
+    void showIntervalParametrique(bool);
+
+
 };
 
 #endif // SETTINGS_H

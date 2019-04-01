@@ -111,6 +111,11 @@ void myOpenGLWidget::makeGLObjects()
     }
     int decal=0;
     QVector<GLfloat> vertData;
+    if(showInterval){
+        G= C1->SurfaceBezier(u, v, 4, 4);
+        G->setColor(1,0,1);
+        G->makeObject(&vertData);   decal+=1;
+    }
     C1->makeObject(&vertData);     C1->setStart(decal);    decal+=C1->getSize();
 
 
@@ -119,7 +124,6 @@ void myOpenGLWidget::makeGLObjects()
         F->makeObject(&vertData);
         decal+=2;
     }
-    G->makeObject(&vertData);decal+=1;
 	m_vbo.create();
 	m_vbo.bind();
 	//qDebug() << "vertData " << vertData.count () << " " << vertData.data ();
@@ -182,11 +186,14 @@ void myOpenGLWidget::paintGL()
 	m_program->enableAttributeArray("posAttr");
 	m_program->enableAttributeArray("colAttr");
 
+
+    glPointSize (10.0f);
+    if(showInterval){
+        glDrawArrays(GL_POINTS, 0, 1);
+    }
     if(editing){
-        glPointSize (10.0f);
-        glDrawArrays(GL_POINTS, C1->getSize(), 1);
-        glDrawArrays(GL_POINTS, C1->getSize()+1, 1);
-        glDrawArrays(GL_POINTS, C1->getSize()+2, 1);
+        glDrawArrays(GL_POINTS, C1->getStart()+C1->getSize(), 1);
+        glDrawArrays(GL_POINTS, C1->getStart()+C1->getSize()+1, 1);
     }
     glPointSize (8.0f);
     glLineWidth(4.0f);
@@ -314,12 +321,22 @@ void myOpenGLWidget::onTimeout()
 }
 void myOpenGLWidget::setPasHomogene(int value){
     qDebug() << "Pas homogène: " << value;
+    C1->setPrecision(value);
+    C1->update();
+    makeGLObjects();
+    update();
 }
 void myOpenGLWidget::setU(double value){
+    u=value;
     qDebug() << "U: " << value;
+    makeGLObjects();
+    update();
 }
 void myOpenGLWidget::setV(double value){
-        qDebug() << "V: " << value;
+    v=value;
+    qDebug() << "V: " << value;
+    makeGLObjects();
+    update();
 }
 void myOpenGLWidget::translateForward(){
     if(editing){
@@ -428,4 +445,10 @@ void myOpenGLWidget::nextPoint(){
         makeGLObjects();
         update();
     }
+}
+
+void myOpenGLWidget::showIntervalParametrique(bool show){
+    showInterval=show;
+    makeGLObjects();
+    update();
 }
