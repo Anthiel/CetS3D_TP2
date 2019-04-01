@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>203</width>
-    <height>279</height>
+    <height>316</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
      <width>184</width>
-     <height>257</height>
+     <height>297</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -319,16 +319,6 @@
     </item>
    </layout>
   </widget>
-  <zorder>layoutWidget</zorder>
-  <zorder>pasHomogeneLabel</zorder>
-  <zorder>controlTranslationLeft</zorder>
-  <zorder>controlTranslationBackward</zorder>
-  <zorder>controlTranslationRight</zorder>
-  <zorder>controlTranslationForward</zorder>
-  <zorder>controlTranslationForward</zorder>
-  <zorder>layoutWidget_2</zorder>
-  <zorder>nextPointButton</zorder>
-  <zorder>previousPointButton</zorder>
  </widget>
  <resources/>
  <connections/>
