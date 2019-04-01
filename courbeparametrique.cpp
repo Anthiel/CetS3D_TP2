@@ -97,9 +97,9 @@ std::vector<float> CourbeParametrique::SurfaceBezier(float u, float v, int n, in
 
     for(int i = 0; i < n; i++){
         for(int j = 0; j < m; j++){
-            res[0] += (Bernstein(u, i, n) * Bernstein(v, j, m) * controlPoint[n*i+j].getX());
-            res[1] += (Bernstein(u, i, n) * Bernstein(v, j, m) * controlPoint[n*i+j].getY());
-            res[2] += (Bernstein(u, i, n) * Bernstein(v, j, m) * controlPoint[n*i+j].getZ());
+            res[0] += (Bernstein(u, i, n-1) * Bernstein(v, j, m-1) * controlPoint[n*i+j].getX());   // faire les calcul sur un point
+            res[1] += (Bernstein(u, i, n-1) * Bernstein(v, j, m-1) * controlPoint[n*i+j].getY());
+            res[2] += (Bernstein(u, i, n-1) * Bernstein(v, j, m-1) * controlPoint[n*i+j].getZ());
         }
     }
     return res;
@@ -117,13 +117,13 @@ void CourbeParametrique::createListPoint(){
             listPoint.push_back(*tmp);
         }
     }
-    for(int i= 0; i < precision; i++){
+    for(int i= 0; i <= precision; i++){
         for(int j = 0; j < precision; j++){
             Segment *tmp = new Segment(listPoint[i*(precision+1)+j], listPoint[i*(precision+1)+j+1]);
             listSegment.push_back(*tmp);
         }
     }
-    nbsegment = (precision+1)*(precision+1);
+    nbsegment = precision*(precision+1);
 }
 
 void CourbeParametrique::resetListPoint(){
@@ -188,7 +188,7 @@ void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
         createListPoint();
         needCalcul=false;
     }
-    for(int i = 0; i < precision*precision; i++){
+    for(int i = 0; i < precision*(precision+1); i++){
         listSegment[i].makeObject(vertData);
     }
 }

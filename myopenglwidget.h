@@ -49,7 +49,7 @@ private:
     float dx=0,dy=0,dz=0;
 
     Point controlPoints[16];
-    Point *E,*F;
+    Point *E,*F,*G;
     CourbeParametrique *C1;
     int numPoint=0;
 
