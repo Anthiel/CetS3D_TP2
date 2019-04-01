@@ -3,6 +3,7 @@
 #.pro de l'application de départ du TP1
 
 QT	+= core gui
+QT      += opengl
 CONFIG	+= c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -10,8 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = CetS3D_TP2
 TEMPLATE = app
 
-LIBS += -lGLU32\
-        -lOpengl32
+LIBS += -lglut -lGLU
 
 
 
@@ -33,17 +33,20 @@ SOURCES += \
     myopenglwidget.cpp \
     segment.cpp \
     point.cpp \
-    courbeparametrique.cpp
+    courbeparametrique.cpp \
+    settings.cpp
 
 HEADERS += \
         mainwindow.h \
     myopenglwidget.h \
     segment.h \
     point.h \
-    courbeparametrique.h
+    courbeparametrique.h \
+    settings.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    settings.ui
 
 RESOURCES += \
     ressources.qrc

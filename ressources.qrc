@@ -2,5 +2,9 @@
     <qresource prefix="/">
         <file>basic.fsh</file>
         <file>basic.vsh</file>
+        <file>icons/right-arrow.png</file>
+        <file>icons/left-arrow.png</file>
+        <file>icons/up-arrow.png</file>
+        <file>icons/down-arrow.png</file>
     </qresource>
 </RCC>
