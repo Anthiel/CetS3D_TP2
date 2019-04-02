@@ -198,12 +198,18 @@ void myOpenGLWidget::paintGL()
     glPointSize (8.0f);
     glLineWidth(4.0f);
 
-    glDrawArrays(GL_POINTS, C1->getStart(), C1->getSizeCourbeParam());
-    glDrawArrays(GL_LINES, C1->getStart(), C1->getSizeCourbeParam());
+    if(showControl){
+        glDrawArrays(GL_POINTS, C1->getStart(), C1->getSizeCourbeParam());
+        glDrawArrays(GL_LINES, C1->getStart(), C1->getSizeCourbeParam());
+    }
 
     glLineWidth(2.0f);
-    glDrawArrays(GL_LINES, C1->getStart(), C1->getSize());
-
+    if(showGrid){
+        glDrawArrays(GL_LINES, C1->getStart()+C1->getSizeCourbeParam(), C1->getSize()-C1->getSizeCourbeParam());
+    }
+    else{
+        glDrawArrays(GL_TRIANGLES, C1->getStart()+C1->getSizeCourbeParam(), C1->getSize()-C1->getSizeCourbeParam());
+    }
 
 
 
@@ -238,6 +244,16 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
         case Qt::Key_9 :
             m_angleZ -= 1;
             if (m_angleZ <= -1) m_angleZ += 360;
+            update();
+            break;
+        case Qt::Key_A :
+            showControl= !showControl;
+            update();
+            break;
+        case Qt::Key_E :
+            showGrid=!showGrid;
+            C1->swapGridSurface();
+            makeGLObjects();
             update();
             break;
         case Qt::Key_S :
@@ -322,7 +338,6 @@ void myOpenGLWidget::onTimeout()
 void myOpenGLWidget::setPasHomogene(int value){
     qDebug() << "Pas homogène: " << value;
     C1->setPrecision(value);
-    C1->update();
     makeGLObjects();
     update();
 }

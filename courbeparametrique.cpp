@@ -128,6 +128,7 @@ int CourbeParametrique::getStart(){
 
 void CourbeParametrique::setPrecision(int pas){
     precision=pas;
+    update();
 }
 
 int CourbeParametrique::getSize(){
@@ -148,6 +149,11 @@ void CourbeParametrique::setControlPointColor(){
     for (int i=0;i<16;++i) {
         controlPoint[i].setColor(1.0, 0.0, 0.0);
     }
+}
+
+void CourbeParametrique::swapGridSurface(){
+    showGrid=!showGrid;
+    update();
 }
 
 void CourbeParametrique::makeControlSegment(){
@@ -177,24 +183,54 @@ void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
     }
     if(needCalcul){
         qDebug() <<"calcul";
+        needCalcul=false;
         resetListPoint();
         createListPoint();
-        for(int i= 0; i <= precision; i++){
+
+        if(showGrid){
+            for(int i= 0; i <= precision; i++){
+                for(int j = 0; j < precision; j++){
+                    Segment *tmp = new Segment(listPoint[i*(precision+1)+j], listPoint[i*(precision+1)+j+1]);
+                    listSegment.push_back(*tmp);
+                }
+            }
+            for(int i= 0; i <= precision; i++){
+                for(int j = 0; j < precision; j++){
+                    Segment *tmp = new Segment(listPoint[i+j*(precision+1)], listPoint[i+(j+1)*(precision+1)]);
+                    listSegment.push_back(*tmp);
+                }
+            }
+            nbsegment = 2*precision*(precision+1);
+        }
+    }
+    if(showGrid){
+        for(int i = 0; i < nbsegment; i++){
+            listSegment[i].makeObject(vertData);
+        }
+    }
+    else{
+        for(int i= 0; i < precision; i++){
             for(int j = 0; j < precision; j++){
-                Segment *tmp = new Segment(listPoint[i*(precision+1)+j], listPoint[i*(precision+1)+j+1]);
-                listSegment.push_back(*tmp);
+                listPoint[(i+0)*(precision+1)+(j+0)].makeObject(vertData);
+                listPoint[(i+0)*(precision+1)+(j+1)].makeObject(vertData);
+                listPoint[(i+1)*(precision+1)+(j+0)].makeObject(vertData);
+
+
+                listPoint[(i+0)*(precision+1)+(j+1)].setColor(0,0.6,0);
+                listPoint[(i+1)*(precision+1)+(j+0)].setColor(0,0.6,0);
+                listPoint[(i+1)*(precision+1)+(j+1)].setColor(0,0.6,0);
+
+                listPoint[(i+0)*(precision+1)+(j+1)].makeObject(vertData);
+                listPoint[(i+1)*(precision+1)+(j+0)].makeObject(vertData);
+                listPoint[(i+1)*(precision+1)+(j+1)].makeObject(vertData);
+
+                listPoint[(i+0)*(precision+1)+(j+1)].setColor(0,0.8,0);
+                listPoint[(i+1)*(precision+1)+(j+0)].setColor(0,0.8,0);
+                listPoint[(i+1)*(precision+1)+(j+1)].setColor(0,0.8,0);
             }
         }
-        for(int i= 0; i <= precision; i++){
-            for(int j = 0; j < precision; j++){
-                Segment *tmp = new Segment(listPoint[i+j*(precision+1)], listPoint[i+(j+1)*(precision+1)]);
-                listSegment.push_back(*tmp);
-            }
-        }
-        nbsegment = 2*precision*(precision+1);
-        needCalcul=false;
+        nbsegment=3*precision*precision;
     }
-    for(int i = 0; i < nbsegment; i++){
-        listSegment[i].makeObject(vertData);
-    }
+
+
 }

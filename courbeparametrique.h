@@ -14,6 +14,7 @@ public:
     void update();
     void setStart(int start);
     void setPrecision(int pas);
+    void swapGridSurface();
     int getStart();
     int getSize();
     int getSizeCourbeParam();
@@ -45,7 +46,7 @@ private:
     std::vector<Point> listPoint;
     std::vector<Segment> listSegment;
 
-    bool needCalcul=true;
+    bool needCalcul=true,showGrid=true;
     int nbsegment = 0;
     int sizeCourbeParam;
     int start;
