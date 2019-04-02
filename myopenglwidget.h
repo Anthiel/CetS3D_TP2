@@ -88,6 +88,9 @@ private slots:
 
     void previousPoint();
     void nextPoint();
+
+    void toggleControlPolygon();
+    void toggleSurface();
 };
 
 

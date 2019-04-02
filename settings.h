@@ -54,6 +54,10 @@ private slots:
 
     void on_checkShow_clicked(bool checked);
 
+    void on_displayControlPolygon_clicked();
+
+    void on_displaySurface_clicked();
+
 private:
     Ui::Settings *ui;
 
@@ -79,7 +83,8 @@ signals:
     void previousPoint();
     void nextPoint();
     void showIntervalParametrique(bool);
-
+    void toggleControlPolygon();
+    void toggleSurface();
 
 };
 

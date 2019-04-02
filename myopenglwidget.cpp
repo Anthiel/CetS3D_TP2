@@ -247,14 +247,10 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
             update();
             break;
         case Qt::Key_A :
-            showControl= !showControl;
-            update();
+            toggleControlPolygon();
             break;
         case Qt::Key_E :
-            showGrid=!showGrid;
-            C1->swapGridSurface();
-            makeGLObjects();
-            update();
+            toggleSurface();
             break;
         case Qt::Key_S :
             translateBackward();
@@ -464,6 +460,18 @@ void myOpenGLWidget::nextPoint(){
 
 void myOpenGLWidget::showIntervalParametrique(bool show){
     showInterval=show;
+    makeGLObjects();
+    update();
+}
+
+void myOpenGLWidget::toggleControlPolygon(){
+    showControl= !showControl;
+    update();
+}
+
+void myOpenGLWidget::toggleSurface(){
+    showGrid=!showGrid;
+    C1->swapGridSurface();
     makeGLObjects();
     update();
 }

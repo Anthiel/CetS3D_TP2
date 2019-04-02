@@ -41,11 +41,11 @@ float CourbeParametrique::GetAngle(float i){
     std::vector<float> tauxAccroi = tauxAccroiss(i);
     std::vector<float> pointT = SoustractionVec(point2, point1);
 
-    qDebug() << "\t i : " << i;
-    qDebug() << "\t point 1 : " << point1 << "\t point 2 : " << point2;
-    qDebug() << "\t point T : " << pointT;
-    qDebug() << "\t Taux Accroi : " << tauxAccroi;
-    qDebug() << "\t ProduitScalaire("<<tauxAccroi<<","<<pointT<<") : " << ProduitScalaire(tauxAccroi, pointT);
+//    qDebug() << "\t i : " << i;
+//    qDebug() << "\t point 1 : " << point1 << "\t point 2 : " << point2;
+//    qDebug() << "\t point T : " << pointT;
+//    qDebug() << "\t Taux Accroi : " << tauxAccroi;
+//    qDebug() << "\t ProduitScalaire("<<tauxAccroi<<","<<pointT<<") : " << ProduitScalaire(tauxAccroi, pointT);
 
     return acos(fabs(ProduitScalaire(tauxAccroi, pointT)));
 }
