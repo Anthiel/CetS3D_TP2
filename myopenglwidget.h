@@ -20,7 +20,10 @@ class myOpenGLWidget : public QOpenGLWidget,
 public:
 	explicit myOpenGLWidget(QWidget *parent = nullptr);
 	~myOpenGLWidget();
-
+    void loadMesh(GLfloat* verts, GLfloat* colors, int nVerts, GLuint* triangles, int nTriangles);
+    void loadLines(GLfloat* verts, GLfloat* colors, int nVerts, GLuint* lines, int nLines, QList<QPair<float, int> > es);
+    void loadPoints(GLfloat* verts, GLfloat* colors, int nVerts, GLuint* points, int nPoints, QList<QPair<float, int> > vs);
+    Point* getControlPoints();
 public slots:
 
 signals:  // On ne les implémente pas, elles seront générées par MOC ;
@@ -39,7 +42,19 @@ protected:
 	void mousePressEvent(QMouseEvent *ev) override;
 	void mouseReleaseEvent(QMouseEvent *ev) override;
 	void mouseMoveEvent(QMouseEvent *ev) override;
+    // buffer pour les VBO
+        GLuint TriDataBuffers[2];
+        // Nombre de triangles du mesh (pour le call du draw)
+        int triToDraw;
 
+        GLuint LinesDataBuffers[2];
+        int linesToDraw;
+        QList<QPair<float, int> > edgeSizes;
+
+        GLuint PointsDataBuffers[2];
+        int pointsToDraw;
+        QList<QPair<float, int> > vertsSizes;
+    bool init;
 private:
 	QTimer *m_timer = nullptr;
 	double m_ratio = 1;
@@ -66,6 +81,7 @@ private:
 
 	void makeGLObjects();
 	void tearGLObjects();
+
 
 private slots:
     void setPasHomogene(int value);

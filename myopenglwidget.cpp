@@ -309,6 +309,112 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
             break;
 	}
 }
+
+void myOpenGLWidget::loadMesh(GLfloat* verts, GLfloat* colors, int nVerts, GLuint* triangles, int nTriangles)
+{
+    GLfloat* vertsColsArray = new GLfloat[nVerts * 2];
+
+    for(int i = 0; i < nVerts; i = i + 3)
+    {
+        int j = 2 * i;
+        vertsColsArray[j] = colors[i] / 255.0;
+        vertsColsArray[j+1] = colors[i+1] / 255.0;
+        vertsColsArray[j+2] = colors[i+2] / 255.0;
+
+        vertsColsArray[j+3] = verts[i];
+        vertsColsArray[j+4] = verts[i+1];
+        vertsColsArray[j+5] = verts[i+2];
+    }
+
+    glGenBuffers( 2, TriDataBuffers );
+
+    glBindBuffer(GL_ARRAY_BUFFER, TriDataBuffers[0]);
+    glBufferData(GL_ARRAY_BUFFER, nVerts * 2 * sizeof(GLfloat), vertsColsArray, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, TriDataBuffers[1]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nTriangles * sizeof(GLuint), triangles, GL_STATIC_DRAW);
+
+    triToDraw = nTriangles;
+
+    init = true;
+
+    delete[] vertsColsArray;
+
+    update();
+}
+
+void myOpenGLWidget::loadLines(GLfloat* verts, GLfloat* colors, int nVerts, GLuint* lines, int nLines, QList<QPair<float, int> > es)
+{
+    GLfloat* linesColsArray = new GLfloat[nVerts * 2];
+
+    for(int i = 0; i < nVerts; i = i + 3)
+    {
+        int j = 2 * i;
+        linesColsArray[j] = colors[i] / 255.0;
+        linesColsArray[j+1] = colors[i+1] / 255.0;
+        linesColsArray[j+2] = colors[i+2] / 255.0;
+
+        linesColsArray[j+3] = verts[i];
+        linesColsArray[j+4] = verts[i+1];
+        linesColsArray[j+5] = verts[i+2];
+    }
+
+    glGenBuffers( 2, LinesDataBuffers );
+
+
+    glBindBuffer(GL_ARRAY_BUFFER, LinesDataBuffers[0]);
+    glBufferData(GL_ARRAY_BUFFER, nVerts * 2 * sizeof(GLfloat), linesColsArray, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, LinesDataBuffers[1]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nLines * sizeof(GLuint), lines, GL_STATIC_DRAW);
+
+    linesToDraw = nLines;
+
+    edgeSizes = es;
+
+    delete[] linesColsArray;
+
+    update();
+}
+
+Point* myOpenGLWidget::getControlPoints(){
+    return this->controlPoints;
+}
+
+void myOpenGLWidget::loadPoints(GLfloat* verts, GLfloat* colors, int nVerts, GLuint* points, int nPoints, QList<QPair<float, int> > vs)
+{
+    GLfloat* pointsColsArray = new GLfloat[nVerts * 2];
+
+    for(int i = 0; i < nVerts; i = i + 3)
+    {
+        int j = 2 * i;
+        pointsColsArray[j] = colors[i] / 255.0;
+        pointsColsArray[j+1] = colors[i+1] / 255.0;
+        pointsColsArray[j+2] = colors[i+2] / 255.0;
+
+        pointsColsArray[j+3] = verts[i];
+        pointsColsArray[j+4] = verts[i+1];
+        pointsColsArray[j+5] = verts[i+2];
+    }
+
+    glGenBuffers( 2, PointsDataBuffers );
+
+
+    glBindBuffer(GL_ARRAY_BUFFER, PointsDataBuffers[0]);
+    glBufferData(GL_ARRAY_BUFFER, nVerts * 2 * sizeof(GLfloat), pointsColsArray, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, PointsDataBuffers[1]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nPoints * sizeof(GLuint), points, GL_STATIC_DRAW);
+
+    pointsToDraw = nPoints;
+
+    vertsSizes = vs;
+
+    delete[] pointsColsArray;
+
+    update();
+}
+
 void myOpenGLWidget::keyReleaseEvent(QKeyEvent *ev)
 {
 	qDebug() << __FUNCTION__ << ev->text();
