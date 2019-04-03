@@ -29,6 +29,9 @@ Settings::Settings(QWidget *parent, myOpenGLWidget* glarea) :
 
     connect(this, SIGNAL(showIntervalParametrique(bool)), glarea, SLOT(showIntervalParametrique(bool)));
 
+    connect(this, SIGNAL(toggleControlPolygon()), glarea, SLOT(toggleControlPolygon()));
+    connect(this, SIGNAL(toggleSurface()), glarea, SLOT(toggleSurface()));
+
     ui->controlTranslationForward->setIcon(icon_up_arrow);
     ui->controlTranslationBackward->setIcon(icon_down_arrow);
     ui->controlTranslationLeft->setIcon(icon_left_arrow);
@@ -149,4 +152,14 @@ void Settings::on_previousPointButton_clicked()
 void Settings::on_checkShow_clicked(bool checked)
 {
     emit showIntervalParametrique(checked);
+}
+
+void Settings::on_displayControlPolygon_clicked()
+{
+    emit toggleControlPolygon();
+}
+
+void Settings::on_displaySurface_clicked()
+{
+    emit toggleSurface();
 }
