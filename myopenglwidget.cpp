@@ -312,7 +312,11 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
             }
             break;
         case Qt::Key_Return :
-            reset();
+            if (editing){
+                applyPointChange();
+            }else{
+                reset();
+            }
             break;
 	}
 }
@@ -413,23 +417,13 @@ void myOpenGLWidget::rotateBackward(){
     update();
 }
 void myOpenGLWidget::reset(){
-    if (editing){
-        editing=false;
-        controlPoints[numPoint]=*F;
-        C1->setPoint(numPoint,*F);
-        dx=0;
-        dy=0;
-        dz=0;
-        makeGLObjects();
-    } else {
         m_x=0;
         m_y=0;
         m_z=0;
         m_angleX=0;
         m_angleY=0;
         m_angleZ=0;
-    }
-    update();
+        update();
 }
 
 void myOpenGLWidget::applyPointChange(){
@@ -446,9 +440,6 @@ void myOpenGLWidget::applyPointChange(){
 }
 
 void myOpenGLWidget::editMode(){
-    dx=0;
-    dy=0;
-    dz=0;
     editing=!editing;
     makeGLObjects();
     update();

@@ -19,7 +19,6 @@ unix:!win32 {
     DEPENDPATH += $$PWD/OpenMesh/inc/
     DEPENDPATH += $$PWD/OpenMesh/liblinux/
 }
-
 win32 {
     LIBS += -lGLU32\
     -lOpengl32
