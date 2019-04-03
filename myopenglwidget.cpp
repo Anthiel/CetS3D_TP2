@@ -298,6 +298,18 @@ void myOpenGLWidget::keyPressEvent(QKeyEvent *ev)
         case Qt::Key_Minus :
             previousPoint();
             break;
+        case Qt::Key_Right :
+            nextPoint_x();
+            break;
+        case Qt::Key_Left :
+            previousPoint_x();
+            break;
+        case Qt::Key_Up :
+            nextPoint_y();
+            break;
+        case Qt::Key_Down :
+            previousPoint_y();
+            break;
         case Qt::Key_Escape :
             if (editing){
                 dx=0;
@@ -444,6 +456,7 @@ void myOpenGLWidget::editMode(){
     makeGLObjects();
     update();
 }
+
 void myOpenGLWidget::previousPoint(){
     if (editing){
         dx=0;
@@ -462,8 +475,58 @@ void myOpenGLWidget::nextPoint(){
         dy=0;
         dz=0;
         numPoint++;
-        if(numPoint>controlPoints_x*controlPoints_y-1)
+        if(numPoint>=controlPoints_x*controlPoints_y)
             numPoint=0;
+        makeGLObjects();
+        update();
+    }
+}
+
+void myOpenGLWidget::previousPoint_x(){
+    if (editing){
+        dx=0;
+        dy=0;
+        dz=0;
+        numPoint--;
+        if(numPoint<0 || numPoint%controlPoints_x==controlPoints_x-1)
+            numPoint+=controlPoints_x;
+        makeGLObjects();
+        update();
+    }
+}
+void myOpenGLWidget::nextPoint_x(){
+    if (editing){
+        dx=0;
+        dy=0;
+        dz=0;
+        numPoint++;
+        if(numPoint%controlPoints_x==0)
+            numPoint-=controlPoints_x;
+        makeGLObjects();
+        update();
+    }
+}
+
+void myOpenGLWidget::previousPoint_y(){
+    if (editing){
+        dx=0;
+        dy=0;
+        dz=0;
+        numPoint-=controlPoints_x;
+        if(numPoint<0)
+            numPoint+=controlPoints_x*controlPoints_y;
+        makeGLObjects();
+        update();
+    }
+}
+void myOpenGLWidget::nextPoint_y(){
+    if (editing){
+        dx=0;
+        dy=0;
+        dz=0;
+        numPoint+=controlPoints_x;
+        if(numPoint>=controlPoints_x*controlPoints_y)
+            numPoint-=controlPoints_x*controlPoints_y;
         makeGLObjects();
         update();
     }
