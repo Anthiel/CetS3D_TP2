@@ -16,9 +16,6 @@ CourbeParametrique::CourbeParametrique(std::vector<Point> cPoint,int controlPoin
 
 }
 
-
-
-
 std::vector<float> CourbeParametrique::SoustractionVec(std::vector<float> p1, std::vector<float> p2){
     std::vector<float> res;
     res.push_back(p1.at(0) - p2.at(0));

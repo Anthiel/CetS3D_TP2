@@ -11,7 +11,19 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = CetS3D_TP2
 TEMPLATE = app
 
-LIBS += -lGLU
+unix:!win32 {
+    LIBS += -lglut -lGLU
+    LIBS += -L$$PWD/OpenMesh/liblinux/ -lOpenMeshCore
+
+    INCLUDEPATH += $$PWD/OpenMesh/inc/
+    DEPENDPATH += $$PWD/OpenMesh/inc/
+    DEPENDPATH += $$PWD/OpenMesh/liblinux/
+}
+
+win32 {
+    LIBS += -lGLU32\
+    -lOpengl32
+}
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
