@@ -447,7 +447,7 @@ void myOpenGLWidget::previousPoint(){
         dz=0;
         numPoint--;
         if(numPoint<0)
-            numPoint=15;
+            numPoint=controlPoints_x*controlPoints_y-1;
         makeGLObjects();
         update();
     }
@@ -458,7 +458,7 @@ void myOpenGLWidget::nextPoint(){
         dy=0;
         dz=0;
         numPoint++;
-        if(numPoint>15)
+        if(numPoint>controlPoints_x*controlPoints_y-1)
             numPoint=0;
         makeGLObjects();
         update();
@@ -478,7 +478,7 @@ void myOpenGLWidget::toggleControlPolygon(){
 
 void myOpenGLWidget::toggleSurface(){
     showGrid=!showGrid;
-    C1->swapGridSurface();
+    C1->swapGridSurface(showGrid);
     makeGLObjects();
     update();
 }
