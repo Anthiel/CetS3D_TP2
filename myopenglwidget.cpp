@@ -421,8 +421,7 @@ void myOpenGLWidget::reset(){
         dy=0;
         dz=0;
         makeGLObjects();
-
-    }else{
+    } else {
         m_x=0;
         m_y=0;
         m_z=0;
@@ -432,6 +431,20 @@ void myOpenGLWidget::reset(){
     }
     update();
 }
+
+void myOpenGLWidget::applyPointChange(){
+    if (editing){
+        editing=false;
+        controlPoints[numPoint]=*F;
+        C1->setPoint(numPoint,*F);
+        dx=0;
+        dy=0;
+        dz=0;
+        makeGLObjects();
+        update();
+    }
+}
+
 void myOpenGLWidget::editMode(){
     dx=0;
     dy=0;

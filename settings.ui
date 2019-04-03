@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>290</width>
-    <height>432</height>
+    <width>288</width>
+    <height>426</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -302,6 +302,13 @@
       </layout>
      </item>
      <item>
+      <widget class="QPushButton" name="applyPointChange">
+       <property name="text">
+        <string>Appliquer le changement</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -317,7 +324,7 @@
      <item>
       <widget class="QPushButton" name="resetButton">
        <property name="text">
-        <string>Réinitialiser</string>
+        <string>Réinitialiser le point de vue</string>
        </property>
       </widget>
      </item>

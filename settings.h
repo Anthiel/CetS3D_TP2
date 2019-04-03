@@ -58,6 +58,8 @@ private slots:
 
     void on_displaySurface_clicked();
 
+    void on_applyPointChange_clicked();
+
 private:
     Ui::Settings *ui;
 
@@ -85,7 +87,7 @@ signals:
     void showIntervalParametrique(bool);
     void toggleControlPolygon();
     void toggleSurface();
-
+    void applyPointChange();
 };
 
 #endif // SETTINGS_H

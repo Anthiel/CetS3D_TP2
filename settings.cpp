@@ -23,14 +23,17 @@ Settings::Settings(QWidget *parent, myOpenGLWidget* glarea) :
     connect(this, SIGNAL(rotationBackward()), glarea, SLOT(rotateBackward()));
 
     connect(this, SIGNAL(reset()), glarea, SLOT(reset()));
+
     connect(this, SIGNAL(editMode()), glarea, SLOT(editMode()));
     connect(this, SIGNAL(previousPoint()), glarea, SLOT(previousPoint()));
     connect(this, SIGNAL(nextPoint()), glarea, SLOT(nextPoint()));
+    connect(this, SIGNAL(applyPointChange()), glarea, SLOT(applyPointChange()));
 
     connect(this, SIGNAL(showIntervalParametrique(bool)), glarea, SLOT(showIntervalParametrique(bool)));
 
     connect(this, SIGNAL(toggleControlPolygon()), glarea, SLOT(toggleControlPolygon()));
     connect(this, SIGNAL(toggleSurface()), glarea, SLOT(toggleSurface()));
+
 
     ui->controlTranslationForward->setIcon(icon_up_arrow);
     ui->controlTranslationBackward->setIcon(icon_down_arrow);
@@ -162,4 +165,9 @@ void Settings::on_displayControlPolygon_clicked()
 void Settings::on_displaySurface_clicked()
 {
     emit toggleSurface();
+}
+
+void Settings::on_applyPointChange_clicked()
+{
+    emit applyPointChange();
 }

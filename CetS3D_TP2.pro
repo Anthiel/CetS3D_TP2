@@ -11,9 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = CetS3D_TP2
 TEMPLATE = app
 
-LIBS += -lGLU32\
-        -lOpengl32
-
+LIBS += -lGLU
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
