@@ -4,13 +4,14 @@
 #include <QMainWindow>
 #include "settings.h"
 #include <QFileDialog>
+/*
 #include <OpenMesh/Core/IO/MeshIO.hh>
 #include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
-
+*/
 namespace Ui {
 class MainWindow;
 }
-
+/*
 using namespace OpenMesh;
 using namespace OpenMesh::Attributes;
 
@@ -29,7 +30,7 @@ struct MyTraits : public OpenMesh::DefaultTraits
     EdgeTraits{float thickness;};
 };
 typedef OpenMesh::TriMesh_ArrayKernelT<MyTraits> MyMesh;
-
+*/
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
@@ -37,7 +38,8 @@ class MainWindow : public QMainWindow
 public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
-
+    void resetAllColorsAndThickness(MyMesh* _mesh);
+    void displayMesh(MyMesh* _mesh);
 protected slots:
     void settingsAction();
     void importAction();
@@ -45,7 +47,7 @@ protected slots:
 private:
 	Ui::MainWindow *ui;
 
-    MyMesh mesh;
+    // MyMesh mesh;
 
     Settings* settings = nullptr;
 };

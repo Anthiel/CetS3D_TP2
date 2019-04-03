@@ -27,45 +27,49 @@ void  MainWindow::settingsAction(){
     }
     if(!settings->isVisible()) settings->show();
 }
-
+/*
 void MainWindow::exportAction(){
     QString fileName = QFileDialog::getSaveFileName(this, "Exporter", "",tr("Mesh Files (*.obj)"));
     if(fileName.isEmpty()) return;
     fileName += ".obj";
-//    QFile file(fileName);
-//    if (file.open(QIODevice::ReadWrite)) {
-//        QTextStream stream(&file);
-
-//        std::vector<Point> controlPoints = ui->openGLWidget->getControlPoints();
-//        int controlPoints_x = ui->openGLWidget->getControlPointsX();
-//        int controlPoints_y = ui->openGLWidget->getControlPointsY();
-
-//        for(int i = 0; i < controlPoints.size(); i++){
-//            stream << "v "
-//                   << controlPoints[i].getX() << " "
-//                   << controlPoints[i].getY() << " "
-//                   << controlPoints[i].getZ() << "\n";
-//        }
-
-//        for (int j = 0; j < controlPoints_y - 1; ++j) {
-//            for(int i = 1; i <= controlPoints_x - 1; ++i){
-//                stream << "f "
-//                       << j * controlPoints_x + i << " "
-//                       << j * controlPoints_x + i + 1 << " "
-//                       << (j + 1) * controlPoints_x + i + 1 << " "
-//                       << (j + 1) * controlPoints_x + i << "\n";
-//            }
-//        }
-//    }
     OpenMesh::IO::write_mesh(mesh, fileName.toUtf8().constData());
 }
 
 void MainWindow::importAction(){
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Mesh"), "", tr("Mesh Files (*.obj)"));
     OpenMesh::IO::read_mesh(mesh, fileName.toUtf8().constData());
-    // Afficher le nouveau mesh
+    resetAllColorsAndThickness(&mesh);
+    displayMesh(&mesh);
 }
 
+void MainWindow::resetAllColorsAndThickness(MyMesh* _mesh)
+{
+    for (MyMesh::VertexIter curVert = _mesh->vertices_begin(); curVert != _mesh->vertices_end(); curVert++)
+    {
+        _mesh->data(*curVert).thickness = 1;
+        _mesh->set_color(*curVert, MyMesh::Color(0, 0, 0));
+    }
+
+    for (MyMesh::FaceIter curFace = _mesh->faces_begin(); curFace != _mesh->faces_end(); curFace++)
+    {
+        _mesh->set_color(*curFace, MyMesh::Color(150, 150, 150));
+    }
+
+    for (MyMesh::EdgeIter curEdge = _mesh->edges_begin(); curEdge != _mesh->edges_end(); curEdge++)
+    {
+        _mesh->data(*curEdge).thickness = 1;
+        _mesh->set_color(*curEdge, MyMesh::Color(0, 0, 0));
+    }
+}
+
+void MainWindow::displayMesh(MyMesh* _mesh){
+    for (MyMesh::VertexIter curVert = _mesh->vertices_begin(); curVert != _mesh->vertices_end(); curVert++)
+    {
+        OpenMesh::Vec3f pt = _mesh->point(*curVert);
+        pointsControl.push_back(new Point(pt[0], pt[1], pt[2]));
+    }
+}
+*/
 MainWindow::~MainWindow()
 {
 	delete ui;
