@@ -11,10 +11,14 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = CetS3D_TP2
 TEMPLATE = app
 
-unix:!macx {
+unix:!win32 {
     LIBS += -lglut -lGLU
-}
+    LIBS += -L$$PWD/OpenMesh/liblinux/ -lOpenMeshCore
 
+    INCLUDEPATH += $$PWD/OpenMesh/inc/
+    DEPENDPATH += $$PWD/OpenMesh/inc/
+    DEPENDPATH += $$PWD/OpenMesh/liblinux/
+}
 win32 {
     LIBS += -lGLU32\
     -lOpengl32

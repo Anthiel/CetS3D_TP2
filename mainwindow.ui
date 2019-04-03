@@ -38,12 +38,24 @@
      <string>Fichier</string>
     </property>
     <addaction name="settingsAction"/>
+    <addaction name="importAction"/>
+    <addaction name="exportAction"/>
    </widget>
    <addaction name="menu"/>
   </widget>
   <action name="settingsAction">
    <property name="text">
     <string>Paramètres</string>
+   </property>
+  </action>
+  <action name="importAction">
+   <property name="text">
+    <string>Importer...</string>
+   </property>
+  </action>
+  <action name="exportAction">
+   <property name="text">
+    <string>Exporter...</string>
    </property>
   </action>
  </widget>

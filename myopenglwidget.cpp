@@ -549,3 +549,15 @@ void myOpenGLWidget::toggleSurface(){
     makeGLObjects();
     update();
 }
+
+std::vector<Point> myOpenGLWidget::getControlPoints(){
+    return this->controlPoints;
+}
+
+int myOpenGLWidget::getControlPointsX(){
+    return this->controlPoints_x;
+}
+
+int myOpenGLWidget::getControlPointsY(){
+    return this->controlPoints_y;
+}

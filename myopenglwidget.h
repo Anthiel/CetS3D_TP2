@@ -20,6 +20,9 @@ class myOpenGLWidget : public QOpenGLWidget,
 public:
 	explicit myOpenGLWidget(QWidget *parent = nullptr);
 	~myOpenGLWidget();
+    std::vector<Point> getControlPoints();
+    int getControlPointsX();
+    int getControlPointsY();
 
 public slots:
 
