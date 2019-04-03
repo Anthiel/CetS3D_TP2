@@ -1,17 +1,19 @@
 #include "courbeparametrique.h"
 #include <math.h>
-
-CourbeParametrique::CourbeParametrique(Point *cPoint, float r, float g, float b)
+CourbeParametrique::CourbeParametrique(std::vector<Point> cPoint,int controlPoints_x,int controlPoints_y, float r, float g, float b)
 {
-
     this->r=r;
     this->g=g;
     this->b=b;
 
-    this->controlPoint=cPoint;
+    this->controlPoints = std::vector<Point>(cPoint);
+    this->controlPoints_x=controlPoints_x;
+    this->controlPoints_y=controlPoints_y;
+
     setControlPointColor();
 
     makeControlSegment();
+
 }
 
 std::vector<float> CourbeParametrique::SoustractionVec(std::vector<float> p1, std::vector<float> p2){
@@ -72,9 +74,9 @@ std::vector<float> CourbeParametrique::tauxAccroiss(float i){
 std::vector<float> CourbeParametrique::bezier(float i){
     std::vector<float> point;
     float t = i/precision;
-    point.push_back(controlPoint[0].getX()*pow(1-t, 3)+3 * controlPoint[1].getX()*t*pow(1-t,2)+ 3*controlPoint[2].getX()*pow(t,2)*(1-t)+controlPoint[3].getX()*pow(t,3));
-    point.push_back(controlPoint[0].getY()*pow(1-t, 3)+3 * controlPoint[1].getY()*t*pow(1-t,2)+ 3*controlPoint[2].getY()*pow(t,2)*(1-t)+controlPoint[3].getY()*pow(t,3));
-    point.push_back(controlPoint[0].getZ()*pow(1-t, 3)+3 * controlPoint[1].getZ()*t*pow(1-t,2)+ 3*controlPoint[2].getZ()*pow(t,2)*(1-t)+controlPoint[3].getZ()*pow(t,3));
+    point.push_back(controlPoints[0].getX()*pow(1-t, 3)+3 * controlPoints[1].getX()*t*pow(1-t,2)+ 3*controlPoints[2].getX()*pow(t,2)*(1-t)+controlPoints[3].getX()*pow(t,3));
+    point.push_back(controlPoints[0].getY()*pow(1-t, 3)+3 * controlPoints[1].getY()*t*pow(1-t,2)+ 3*controlPoints[2].getY()*pow(t,2)*(1-t)+controlPoints[3].getY()*pow(t,3));
+    point.push_back(controlPoints[0].getZ()*pow(1-t, 3)+3 * controlPoints[1].getZ()*t*pow(1-t,2)+ 3*controlPoints[2].getZ()*pow(t,2)*(1-t)+controlPoints[3].getZ()*pow(t,3));
     return point;
 }
 
@@ -97,7 +99,7 @@ Point* CourbeParametrique::SurfaceBezier(float u, float v, int n, int m){
 
     for(int i = 0; i < n; i++){
         for(int j = 0; j < m; j++){
-            *p += (Bernstein(u, i, n-1) * Bernstein(v, j, m-1)) * controlPoint[n*i+j];
+            *p += (Bernstein(u, i, n-1) * Bernstein(v, j, m-1)) * controlPoints[n*j+i];
         }
     }
     return p;
@@ -105,18 +107,14 @@ Point* CourbeParametrique::SurfaceBezier(float u, float v, int n, int m){
 
 
 void CourbeParametrique::createListPoint(){
+    listPoint.clear();
     for(int i= 0; i <= precision; i++){
         for(int j = 0; j <= precision; j++){
             //qDebug() << "début des surfaces i : " << i << " j : " << j;
-            Point *tmp = SurfaceBezier(i/precision, j/precision, 4, 4);
+            Point *tmp = SurfaceBezier(i/precision, j/precision, controlPoints_x, controlPoints_y);
             listPoint.push_back(*tmp);
         }
     }
-}
-
-void CourbeParametrique::resetListPoint(){
-    listSegment.clear();
-    listPoint.clear();
 }
 
 void CourbeParametrique::setStart(int start){
@@ -132,22 +130,25 @@ void CourbeParametrique::setPrecision(int pas){
 }
 
 int CourbeParametrique::getSize(){
-    return (nbsegment+sizeCourbeParam)*2;
+    return (nbsegment+controlSegment.size())*2;
 }
 
 int CourbeParametrique::getSizeCourbeParam(){
-    return sizeCourbeParam*2;
+    return controlSegment.size()*2;
 }
 
 Point CourbeParametrique::getPoint(int numPoint){
-    return controlPoint[numPoint];
+    return controlPoints[numPoint];
 }
-
+void CourbeParametrique::setPoint(int numPoint,Point p){
+    controlPoints[numPoint]=p;
+    update();
+}
 
 void CourbeParametrique::setControlPointColor(){
 
-    for (int i=0;i<16;++i) {
-        controlPoint[i].setColor(1.0, 0.0, 0.0);
+    for (int i=0;i<controlPoints.size();++i) {
+        controlPoints[i].setColor(1.0, 0.0, 0.0);
     }
 }
 
@@ -157,16 +158,15 @@ void CourbeParametrique::swapGridSurface(){
 }
 
 void CourbeParametrique::makeControlSegment(){
-    sizeCourbeParam=24;
-    for (int j=0;j<4;++j) {
-        for(int i=0;i<3;++i){
-            controlSegment[3*j+i] = *new Segment(controlPoint[4*j+i],controlPoint[4*j+i+1]);
+    controlSegment.clear();
+    for (int j=0;j<controlPoints_y;++j) {
+        for(int i=0;i<controlPoints_x-1;++i){
+            controlSegment.push_back(*new Segment(controlPoints[controlPoints_x*j+i],controlPoints[controlPoints_x*j+i+1]));
         }
     }
-
-    for (int j=0;j<4;++j) {
-        for(int i=0;i<3;++i){
-            controlSegment[12+3*j+i] = *new Segment(controlPoint[i*4+j],controlPoint[(i+1)*4+j]);
+    for (int j=0;j<controlPoints_x;++j) {
+        for(int i=0;i<controlPoints_y-1;++i){
+            controlSegment.push_back(*new Segment(controlPoints[i*controlPoints_x+j],controlPoints[(i+1)*controlPoints_x+j]));
         }
     }
 }
@@ -178,16 +178,15 @@ void CourbeParametrique::update(){
 }
 
 void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
-    for(int i = 0; i < sizeCourbeParam; i++){
+    for(int i = 0; i < controlSegment.size(); i++){
         controlSegment[i].makeObject(vertData);
     }
     if(needCalcul){
-        qDebug() <<"calcul";
         needCalcul=false;
-        resetListPoint();
         createListPoint();
 
         if(showGrid){
+            listSegment.clear();
             for(int i= 0; i <= precision; i++){
                 for(int j = 0; j < precision; j++){
                     Segment *tmp = new Segment(listPoint[i*(precision+1)+j], listPoint[i*(precision+1)+j+1]);
@@ -211,22 +210,33 @@ void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
     else{
         for(int i= 0; i < precision; i++){
             for(int j = 0; j < precision; j++){
-                listPoint[(i+0)*(precision+1)+(j+0)].makeObject(vertData);
-                listPoint[(i+0)*(precision+1)+(j+1)].makeObject(vertData);
-                listPoint[(i+1)*(precision+1)+(j+0)].makeObject(vertData);
+                int A=(i+0)*(precision+1)+(j+0);
+                int B=(i+0)*(precision+1)+(j+1);
+                int C=(i+1)*(precision+1)+(j+0);
+                int D=(i+1)*(precision+1)+(j+1);
 
+                QVector3D vAB(listPoint[B].getX()-listPoint[A].getX(),listPoint[B].getY()-listPoint[A].getY(),listPoint[B].getZ()-listPoint[A].getZ());
+                QVector3D vAC(listPoint[C].getX()-listPoint[A].getX(),listPoint[C].getY()-listPoint[A].getY(),listPoint[C].getZ()-listPoint[A].getZ());
+                QVector3D vDB(listPoint[B].getX()-listPoint[D].getX(),listPoint[B].getY()-listPoint[D].getY(),listPoint[B].getZ()-listPoint[D].getZ());
+                QVector3D vDC(listPoint[C].getX()-listPoint[D].getX(),listPoint[C].getY()-listPoint[D].getY(),listPoint[C].getZ()-listPoint[D].getZ());
 
-                listPoint[(i+0)*(precision+1)+(j+1)].setColor(0,0.6,0);
-                listPoint[(i+1)*(precision+1)+(j+0)].setColor(0,0.6,0);
-                listPoint[(i+1)*(precision+1)+(j+1)].setColor(0,0.6,0);
+                QVector3D nABC = -QVector3D::normal(vAC, vAB);
+                QVector3D nBDC = -QVector3D::normal(vDB, vDC);
+                QVector3D nBC = (nABC+nBDC)/2;
 
-                listPoint[(i+0)*(precision+1)+(j+1)].makeObject(vertData);
-                listPoint[(i+1)*(precision+1)+(j+0)].makeObject(vertData);
-                listPoint[(i+1)*(precision+1)+(j+1)].makeObject(vertData);
+                listPoint[A].makeObject(vertData);
+                vertData->append(nABC.x());vertData->append(nABC.y());vertData->append(nABC.z());
+                listPoint[B].makeObject(vertData);
+                vertData->append(nBC.x());vertData->append(nBC.y());vertData->append(nBC.z());
+                listPoint[C].makeObject(vertData);
+                vertData->append(nBC.x());vertData->append(nBC.y());vertData->append(nBC.z());
 
-                listPoint[(i+0)*(precision+1)+(j+1)].setColor(0,0.8,0);
-                listPoint[(i+1)*(precision+1)+(j+0)].setColor(0,0.8,0);
-                listPoint[(i+1)*(precision+1)+(j+1)].setColor(0,0.8,0);
+                listPoint[B].makeObject(vertData);
+                vertData->append(nBC.x());vertData->append(nBC.y());vertData->append(nBC.z());
+                listPoint[C].makeObject(vertData);
+                vertData->append(nBC.x());vertData->append(nBC.y());vertData->append(nBC.z());
+                listPoint[D].makeObject(vertData);
+                vertData->append(nBDC.x());vertData->append(nBDC.y());vertData->append(nBDC.z());
             }
         }
         nbsegment=3*precision*precision;

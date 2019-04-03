@@ -77,29 +77,32 @@ void myOpenGLWidget::doProjection()
 void myOpenGLWidget::makeGLObjects()
 {
     if (firstDraw){
-        controlPoints[0] =  *new Point(-1.0, -0.5, +1.5);
-        controlPoints[1] =  *new Point(-0.3, -0.5, +1.5);
-        controlPoints[2] =  *new Point(+0.3, -0.5, +1.5);
-        controlPoints[3] =  *new Point(+1.0, -0.5, +1.5);
-        controlPoints[4] =  *new Point(-1.0, -0.5, +0.5);
-        controlPoints[5] =  *new Point(-0.3, +1.5, +0.5);
-        controlPoints[6] =  *new Point(+0.3, +1.5, +0.5);
-        controlPoints[7] =  *new Point(+1.0, -0.5, +0.5);
-        controlPoints[8] =  *new Point(-1.0, -0.5, -0.5);
-        controlPoints[9] =  *new Point(-0.3, +0.5, -0.5);
-        controlPoints[10] = *new Point(+0.3, +0.5, -0.5);
-        controlPoints[11] = *new Point(+1.0, -0.5, -0.5);
-        controlPoints[12] = *new Point(-1.0, -0.5, -1.5);
-        controlPoints[13] = *new Point(-0.3, -0.5, -1.5);
-        controlPoints[14] = *new Point(+0.3, -0.5, -1.5);
-        controlPoints[15] = *new Point(+1.0, -0.5, -1.5);
+        controlPoints.push_back(*new Point(-1.0, -0.5, +1.5));
+        controlPoints.push_back(*new Point(-0.3, -0.5, +1.5));
+        controlPoints.push_back(*new Point(+0.3, -0.5, +1.5));
+        controlPoints.push_back(*new Point(+1.0, -0.5, +1.5));
+        controlPoints.push_back(*new Point(-1.0, -0.5, +0.5));
+        controlPoints.push_back(*new Point(-0.3, +1.5, +0.5));
+        controlPoints.push_back(*new Point(+0.3, +1.5, +0.5));
+        controlPoints.push_back(*new Point(+1.0, -0.5, +0.5));
+        controlPoints.push_back(*new Point(-1.0, -0.5, -0.5));
+        controlPoints.push_back(*new Point(-0.3, +0.5, -0.5));
+        controlPoints.push_back(*new Point(+0.3, +0.5, -0.5));
+        controlPoints.push_back(*new Point(+1.0, -0.5, -0.5));
+        controlPoints.push_back(*new Point(-1.0, -0.5, -1.5));
+        controlPoints.push_back(*new Point(-0.3, -0.5, -1.5));
+        controlPoints.push_back(*new Point(+0.3, -0.5, -1.5));
+        controlPoints.push_back(*new Point(+1.0, -0.5, -1.5));
+        controlPoints_x=4;
+        controlPoints_y=4;
         E = new Point(0.0, 0.0, 0.0,0,1,1);
         F = new Point(0.0, 0.0, 0.0,0,1,1);
         G = new Point(0.0, 0.0, 0.0,1,0,1);
-        C1 = new CourbeParametrique(controlPoints, 0.0, 0.8, 0.0);
+        C1 = new CourbeParametrique(controlPoints,controlPoints_x,controlPoints_y, 0.0, 0.8, 0.0);
         firstDraw=false;
     }
     else{
+
         if(editing){
             *E = C1->getPoint(numPoint);
             E->setColor(0,1,1);
@@ -112,16 +115,16 @@ void myOpenGLWidget::makeGLObjects()
     int decal=0;
     QVector<GLfloat> vertData;
     if(showInterval){
-        G= C1->SurfaceBezier(u, v, 4, 4);
+        G= C1->SurfaceBezier(u, v, controlPoints_x, controlPoints_y);
         G->setColor(1,0,1);
-        G->makeObject(&vertData);   decal+=1;
+        G->makeObjectSingle(&vertData);   decal+=1;
     }
     C1->makeObject(&vertData);     C1->setStart(decal);    decal+=C1->getSize();
 
 
     if(editing){
-        E->makeObject(&vertData);
-        F->makeObject(&vertData);
+        E->makeObjectSingle(&vertData);
+        F->makeObjectSingle(&vertData);
         decal+=2;
     }
 	m_vbo.create();
@@ -177,14 +180,18 @@ void myOpenGLWidget::paintGL()
         m_modelView.rotate(m_angleZ, 0, 0, 1);
 
 		QMatrix4x4 m = m_projection * m_modelView * m_model;
+        QMatrix3x3 normal_mat = m_modelView.normalMatrix();
 	///----------------------------
 
 	m_program->setUniformValue("matrix", m);
+    m_program->setUniformValue("norMatrix", normal_mat);
 
-	m_program->setAttributeBuffer("posAttr", GL_FLOAT, 0, 3, 6 * sizeof(GLfloat));
-	m_program->setAttributeBuffer("colAttr", GL_FLOAT, 3 * sizeof(GLfloat), 3, 6 * sizeof(GLfloat));
+    m_program->setAttributeBuffer("posAttr", GL_FLOAT, 0 * sizeof(GLfloat), 3, 9 * sizeof(GLfloat));
+    m_program->setAttributeBuffer("colAttr", GL_FLOAT, 3 * sizeof(GLfloat), 3, 9 * sizeof(GLfloat));
+    m_program->setAttributeBuffer("norAttr", GL_FLOAT, 6 * sizeof(GLfloat), 3, 9 * sizeof(GLfloat));
 	m_program->enableAttributeArray("posAttr");
-	m_program->enableAttributeArray("colAttr");
+    m_program->enableAttributeArray("colAttr");
+    m_program->enableAttributeArray("norAttr");
 
 
     glPointSize (10.0f);
@@ -413,7 +420,7 @@ void myOpenGLWidget::reset(){
     if (editing){
         editing=false;
         controlPoints[numPoint]=*F;
-        C1->update();
+        C1->setPoint(numPoint,*F);
         dx=0;
         dy=0;
         dz=0;

@@ -105,7 +105,10 @@ void Segment::makeObject(QVector<GLfloat> *vertData)
             vertData->append(vertices[i*3+j]);
         // couleurs sommets
         for (int j = 0; j < 3; j++) //1 RGB par sommet
-            vertData->append(colors[i*3+j]);
+            vertData->append(colors[i*3+j]*10);
+
+        for (int j = 0; j < 3; j++) //1 RGB par sommet
+            vertData->append(0);
     }
 }
 

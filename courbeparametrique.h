@@ -2,12 +2,13 @@
 #define COURBEPARAMETRIQUE_H
 
 #include "segment.h"
+#include <QVector3D>
 #include <math.h>
 
 class CourbeParametrique
 {
 public:
-    CourbeParametrique(Point *controlPoint, float r, float g, float b);
+    CourbeParametrique(std::vector<Point> controlPoint,int controlPoints_x,int controlPoints_y, float r, float g, float b);
     void makeObject(QVector<GLfloat> *vertData);
     void makeControlSegment();
     void setControlPointColor();
@@ -19,6 +20,7 @@ public:
     int getSize();
     int getSizeCourbeParam();
     Point getPoint(int numPoint);
+    void setPoint(int numPoint,Point p);
 
     std::vector<float> SoustractionVec(std::vector<float> p1, std::vector<float> p2);
     std::vector<float> ProduitVec(std::vector<float> p1, std::vector<float> p2);
@@ -28,7 +30,6 @@ public:
     std::vector<float> tauxAccroiss(float i);
     std::vector<float> bezier(float i);
     void createListPoint();
-    void resetListPoint();
 
     int factoriel(int n);
     float Bernstein(float u, int i, int n);
@@ -38,8 +39,9 @@ public:
 
 
 private:
-    Point *controlPoint;
-    Segment controlSegment[24];
+    std::vector<Point> controlPoints;
+    int controlPoints_x,controlPoints_y;
+    std::vector<Segment> controlSegment;
     float r,g,b;
     float precision = 10;
 

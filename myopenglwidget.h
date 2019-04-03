@@ -49,7 +49,8 @@ private:
     double dx=0,dy=0,dz=0;
     double u=0,v=0;
 
-    Point controlPoints[16];
+    std::vector<Point> controlPoints;
+    int controlPoints_x,controlPoints_y;
     Point *E,*F,*G;
     CourbeParametrique *C1;
     int numPoint=0;

@@ -12,7 +12,7 @@ void main() {
     // Cosinus de l'angle entre la normale et la lumière
     // borné entre 0 et 1
     //float cosTheta = clamp( dot(nor,light), 0.0 , 1.0 );
-    float cosTheta = clamp( dot(nor,light ), 1.0 , 1.0 );
+    float cosTheta = clamp( abs(dot(nor,light )), 0.3 , 1.0 );
 
     // Couleur de la lumière
     vec3 lightColor = vec3 (1.0, 1.0, 1.0);

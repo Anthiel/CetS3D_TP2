@@ -50,6 +50,7 @@ public:
     void setColor(const float * t);
     void setColor(float r, float g, float b);
     void makeObject(QVector<GLfloat> *vertData);
+    void makeObjectSingle(QVector<GLfloat> *vertData);
 
 	friend std::ostream& operator<<(std::ostream&, const Point&);
 
