@@ -14,13 +14,13 @@ public:
     void setControlPointColor();
     void update();
     void setStart(int start);
-    void setPrecision(int pas);
-    void swapGridSurface();
     int getStart();
+    void setPrecision(int pas);
+    void swapGridSurface(bool showGrid);
+    void setPoint(int numPoint,Point p);
+    Point getPoint(int numPoint);
     int getSize();
     int getSizeCourbeParam();
-    Point getPoint(int numPoint);
-    void setPoint(int numPoint,Point p);
 
     std::vector<float> SoustractionVec(std::vector<float> p1, std::vector<float> p2);
     std::vector<float> ProduitVec(std::vector<float> p1, std::vector<float> p2);

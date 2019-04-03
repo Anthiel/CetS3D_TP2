@@ -16,6 +16,9 @@ CourbeParametrique::CourbeParametrique(std::vector<Point> cPoint,int controlPoin
 
 }
 
+
+
+
 std::vector<float> CourbeParametrique::SoustractionVec(std::vector<float> p1, std::vector<float> p2){
     std::vector<float> res;
     res.push_back(p1.at(0) - p2.at(0));
@@ -80,6 +83,9 @@ std::vector<float> CourbeParametrique::bezier(float i){
     return point;
 }
 
+
+
+
 int CourbeParametrique::factoriel(int n)
 {
   return (n == 1 || n == 0) ? 1 : factoriel(n - 1) * n;
@@ -104,7 +110,6 @@ Point* CourbeParametrique::SurfaceBezier(float u, float v, int n, int m){
     }
     return p;
 }
-
 
 void CourbeParametrique::createListPoint(){
     listPoint.clear();
@@ -152,8 +157,8 @@ void CourbeParametrique::setControlPointColor(){
     }
 }
 
-void CourbeParametrique::swapGridSurface(){
-    showGrid=!showGrid;
+void CourbeParametrique::swapGridSurface(bool showGrid){
+    this->showGrid=showGrid;
     update();
 }
 
@@ -176,6 +181,8 @@ void CourbeParametrique::update(){
     makeControlSegment();
     needCalcul=true;
 }
+
+
 
 void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
     for(int i = 0; i < controlSegment.size(); i++){
@@ -241,6 +248,4 @@ void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
         }
         nbsegment=3*precision*precision;
     }
-
-
 }

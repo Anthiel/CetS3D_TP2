@@ -163,7 +163,7 @@
      <item>
       <widget class="QPushButton" name="displaySurface">
        <property name="text">
-        <string>Afficher / Retirer la surface</string>
+        <string>Afficher la Grille / la surface</string>
        </property>
       </widget>
      </item>
