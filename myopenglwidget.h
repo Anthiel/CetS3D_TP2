@@ -92,6 +92,10 @@ private slots:
 
     void previousPoint();
     void nextPoint();
+    void previousPoint_x();
+    void nextPoint_x();
+    void previousPoint_y();
+    void nextPoint_y();
     void applyPointChange();
 
     void toggleControlPolygon();
