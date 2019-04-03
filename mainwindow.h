@@ -38,8 +38,8 @@ class MainWindow : public QMainWindow
 public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
-    void resetAllColorsAndThickness(MyMesh* _mesh);
-    void displayMesh(MyMesh* _mesh);
+//    void resetAllColorsAndThickness(MyMesh* _mesh);
+//    void displayMesh(MyMesh* _mesh);
 protected slots:
     void settingsAction();
     void importAction();

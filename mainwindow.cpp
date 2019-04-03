@@ -27,21 +27,25 @@ void  MainWindow::settingsAction(){
     }
     if(!settings->isVisible()) settings->show();
 }
-/*
+
 void MainWindow::exportAction(){
+    /*
     QString fileName = QFileDialog::getSaveFileName(this, "Exporter", "",tr("Mesh Files (*.obj)"));
     if(fileName.isEmpty()) return;
     fileName += ".obj";
     OpenMesh::IO::write_mesh(mesh, fileName.toUtf8().constData());
+    */
 }
 
 void MainWindow::importAction(){
+    /*
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Mesh"), "", tr("Mesh Files (*.obj)"));
     OpenMesh::IO::read_mesh(mesh, fileName.toUtf8().constData());
     resetAllColorsAndThickness(&mesh);
     displayMesh(&mesh);
+    */
 }
-
+/*
 void MainWindow::resetAllColorsAndThickness(MyMesh* _mesh)
 {
     for (MyMesh::VertexIter curVert = _mesh->vertices_begin(); curVert != _mesh->vertices_end(); curVert++)
