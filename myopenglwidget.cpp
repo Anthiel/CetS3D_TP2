@@ -17,7 +17,6 @@ myOpenGLWidget::myOpenGLWidget(QWidget *parent) :
 	QOpenGLWidget(parent)
 {
 	qDebug() << "init myOpenGLWidget" ;
-
 	QSurfaceFormat sf;
 	sf.setDepthBufferSize(24);
 	sf.setSamples(16);  // nb de sample par pixels : suréchantillonnage por l'antialiasing, en décalant à chaque fois le sommet
@@ -54,7 +53,7 @@ void myOpenGLWidget::initializeGL()
 	initializeOpenGLFunctions();
 	glEnable(GL_DEPTH_TEST);
 
-	makeGLObjects();
+    makeGLObjects();
 
 	//shaders
 	m_program = new QOpenGLShaderProgram(this);
@@ -76,7 +75,15 @@ void myOpenGLWidget::doProjection()
 
 void myOpenGLWidget::makeGLObjects()
 {
-    if (firstDraw){
+    if(isImport){
+        controlPoints_x=4;
+        controlPoints_y=4;
+        E = new Point(0.0, 0.0, 0.0,0,1,1);
+        F = new Point(0.0, 0.0, 0.0,0,1,1);
+        G = new Point(0.0, 0.0, 0.0,1,0,1);
+        C1 = new CourbeParametrique(controlPoints,controlPoints_x,controlPoints_y, 0.0, 0.8, 0.0);
+        isImport = false;
+    } else if (firstDraw){
         controlPoints.push_back(*new Point(-1.0, -0.5, +1.5));
         controlPoints.push_back(*new Point(-0.3, -0.5, +1.5));
         controlPoints.push_back(*new Point(+0.3, -0.5, +1.5));
@@ -100,9 +107,7 @@ void myOpenGLWidget::makeGLObjects()
         G = new Point(0.0, 0.0, 0.0,1,0,1);
         C1 = new CourbeParametrique(controlPoints,controlPoints_x,controlPoints_y, 0.0, 0.8, 0.0);
         firstDraw=false;
-    }
-    else{
-
+    } else{
         if(editing){
             *E = C1->getPoint(numPoint);
             E->setColor(0,1,1);
@@ -560,4 +565,16 @@ int myOpenGLWidget::getControlPointsX(){
 
 int myOpenGLWidget::getControlPointsY(){
     return this->controlPoints_y;
+}
+
+void myOpenGLWidget::addControlPoint(Point& point){
+    this->controlPoints.push_back(point);
+}
+
+void myOpenGLWidget::clearControlPoints(){
+    this->controlPoints.clear();
+}
+
+void myOpenGLWidget::setIsImport(bool value){
+    this->isImport = value;
 }

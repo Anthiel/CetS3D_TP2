@@ -21,9 +21,12 @@ public:
 	explicit myOpenGLWidget(QWidget *parent = nullptr);
 	~myOpenGLWidget();
     std::vector<Point> getControlPoints();
+    void addControlPoint(Point& point);
+    void clearControlPoints();
     int getControlPointsX();
     int getControlPointsY();
-
+    void makeGLObjects();
+    void setIsImport(bool value);
 public slots:
 
 signals:  // On ne les implémente pas, elles seront générées par MOC ;
@@ -58,7 +61,7 @@ private:
     CourbeParametrique *C1;
     int numPoint=0;
 
-    bool editing=false,firstDraw=true,showInterval=false,showGrid=true,showControl=true;
+    bool editing=false,firstDraw=true,showInterval=false,showGrid=true,showControl=true,isImport=false;
 
 	//RR matrices utiles
 	QMatrix4x4 m_modelView;
@@ -67,8 +70,6 @@ private:
 
 	QOpenGLShaderProgram *m_program;
 	QOpenGLBuffer m_vbo;
-
-	void makeGLObjects();
 	void tearGLObjects();
 
 private slots:

@@ -29,23 +29,19 @@ void  MainWindow::settingsAction(){
 }
 
 void MainWindow::exportAction(){
-    /*
     QString fileName = QFileDialog::getSaveFileName(this, "Exporter", "",tr("Mesh Files (*.obj)"));
     if(fileName.isEmpty()) return;
     fileName += ".obj";
     OpenMesh::IO::write_mesh(mesh, fileName.toUtf8().constData());
-    */
 }
 
 void MainWindow::importAction(){
-    /*
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Mesh"), "", tr("Mesh Files (*.obj)"));
     OpenMesh::IO::read_mesh(mesh, fileName.toUtf8().constData());
     resetAllColorsAndThickness(&mesh);
     displayMesh(&mesh);
-    */
 }
-/*
+
 void MainWindow::resetAllColorsAndThickness(MyMesh* _mesh)
 {
     for (MyMesh::VertexIter curVert = _mesh->vertices_begin(); curVert != _mesh->vertices_end(); curVert++)
@@ -67,13 +63,18 @@ void MainWindow::resetAllColorsAndThickness(MyMesh* _mesh)
 }
 
 void MainWindow::displayMesh(MyMesh* _mesh){
+
+    ui->openGLWidget->clearControlPoints();
+    ui->openGLWidget->setIsImport(true);
+
     for (MyMesh::VertexIter curVert = _mesh->vertices_begin(); curVert != _mesh->vertices_end(); curVert++)
     {
         OpenMesh::Vec3f pt = _mesh->point(*curVert);
-        pointsControl.push_back(new Point(pt[0], pt[1], pt[2]));
+        ui->openGLWidget->addControlPoint(*new Point(pt[0], pt[1], pt[2]));
     }
+    ui->openGLWidget->makeGLObjects();
 }
-*/
+
 MainWindow::~MainWindow()
 {
 	delete ui;
