@@ -25,6 +25,8 @@ public:
     void clearControlPoints();
     int getControlPointsX();
     int getControlPointsY();
+    void setControlPointsX(int controlPointsX);
+    void setControlPointsY(int controlPointsY);
     void makeGLObjects();
     void setIsImport(bool value);
 public slots:
@@ -56,12 +58,13 @@ private:
     double u=0,v=0;
 
     std::vector<Point> controlPoints;
-    int controlPoints_x,controlPoints_y;
+    int controlPoints_x=0;
+    int controlPoints_y=0;
     Point *E,*F,*G;
     CourbeParametrique *C1;
     int numPoint=0;
 
-    bool editing=false,firstDraw=true,showInterval=false,showGrid=true,showControl=true,isImport=false;
+    bool editing=false,firstDraw=true,showInterval=false,showGrid=true,showControl=true,isImport=false, meshExist=false;
 
 	//RR matrices utiles
 	QMatrix4x4 m_modelView;

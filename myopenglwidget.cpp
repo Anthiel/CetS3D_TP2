@@ -76,39 +76,14 @@ void myOpenGLWidget::doProjection()
 void myOpenGLWidget::makeGLObjects()
 {
     if(isImport){
-        controlPoints_x=4;
-        controlPoints_y=4;
         E = new Point(0.0, 0.0, 0.0,0,1,1);
         F = new Point(0.0, 0.0, 0.0,0,1,1);
         G = new Point(0.0, 0.0, 0.0,1,0,1);
         C1 = new CourbeParametrique(controlPoints,controlPoints_x,controlPoints_y, 0.0, 0.8, 0.0);
         isImport = false;
-    } else if (firstDraw){
-        controlPoints.push_back(*new Point(-1.0, -0.5, +1.5));
-        controlPoints.push_back(*new Point(-0.3, -0.5, +1.5));
-        controlPoints.push_back(*new Point(+0.3, -0.5, +1.5));
-        controlPoints.push_back(*new Point(+1.0, -0.5, +1.5));
-        controlPoints.push_back(*new Point(-1.0, -0.5, +0.5));
-        controlPoints.push_back(*new Point(-0.3, +1.5, +0.5));
-        controlPoints.push_back(*new Point(+0.3, +1.5, +0.5));
-        controlPoints.push_back(*new Point(+1.0, -0.5, +0.5));
-        controlPoints.push_back(*new Point(-1.0, -0.5, -0.5));
-        controlPoints.push_back(*new Point(-0.3, +0.5, -0.5));
-        controlPoints.push_back(*new Point(+0.3, +0.5, -0.5));
-        controlPoints.push_back(*new Point(+1.0, -0.5, -0.5));
-        controlPoints.push_back(*new Point(-1.0, -0.5, -1.5));
-        controlPoints.push_back(*new Point(-0.3, -0.5, -1.5));
-        controlPoints.push_back(*new Point(+0.3, -0.5, -1.5));
-        controlPoints.push_back(*new Point(+1.0, -0.5, -1.5));
-        controlPoints_x=4;
-        controlPoints_y=4;
-        E = new Point(0.0, 0.0, 0.0,0,1,1);
-        F = new Point(0.0, 0.0, 0.0,0,1,1);
-        G = new Point(0.0, 0.0, 0.0,1,0,1);
-        C1 = new CourbeParametrique(controlPoints,controlPoints_x,controlPoints_y, 0.0, 0.8, 0.0);
-        firstDraw=false;
-    } else{
-        if(editing){
+        meshExist = true;
+    } else {
+        if(meshExist && editing){
             *E = C1->getPoint(numPoint);
             E->setColor(0,1,1);
             F->setX(dx);
@@ -119,22 +94,25 @@ void myOpenGLWidget::makeGLObjects()
     }
     int decal=0;
     QVector<GLfloat> vertData;
-    if(showInterval){
+    if(meshExist && showInterval){
         G= C1->SurfaceBezier(u, v, controlPoints_x, controlPoints_y);
         G->setColor(1,0,1);
         G->makeObjectSingle(&vertData);   decal+=1;
     }
-    C1->makeObject(&vertData);     C1->setStart(decal);    decal+=C1->getSize();
+    if(meshExist){
+        C1->makeObject(&vertData);
+        C1->setStart(decal);
+        decal+=C1->getSize();
+    }
 
-
-    if(editing){
+    if(meshExist && editing){
         E->makeObjectSingle(&vertData);
         F->makeObjectSingle(&vertData);
         decal+=2;
     }
-	m_vbo.create();
-	m_vbo.bind();
-	//qDebug() << "vertData " << vertData.count () << " " << vertData.data ();
+    m_vbo.create();
+    m_vbo.bind();
+    qDebug() << "vertData " << vertData.count () << " " << vertData.data ();
     m_vbo.allocate(vertData.constData(), vertData.count() * sizeof(GLfloat));
 }
 
@@ -200,30 +178,30 @@ void myOpenGLWidget::paintGL()
 
 
     glPointSize (10.0f);
-    if(showInterval){
+    if(meshExist && showInterval){
         glDrawArrays(GL_POINTS, 0, 1);
     }
-    if(editing){
+    if(meshExist && editing){
         glDrawArrays(GL_POINTS, C1->getStart()+C1->getSize(), 1);
         glDrawArrays(GL_POINTS, C1->getStart()+C1->getSize()+1, 1);
     }
     glPointSize (8.0f);
     glLineWidth(4.0f);
 
-    if(showControl){
+    if(meshExist && showControl){
         glDrawArrays(GL_POINTS, C1->getStart(), C1->getSizeCourbeParam());
         glDrawArrays(GL_LINES, C1->getStart(), C1->getSizeCourbeParam());
     }
 
     glLineWidth(2.0f);
-    if(showGrid){
-        glDrawArrays(GL_LINES, C1->getStart()+C1->getSizeCourbeParam(), C1->getSize()-C1->getSizeCourbeParam());
+    if(meshExist){
+        if(showGrid){
+            glDrawArrays(GL_LINES, C1->getStart()+C1->getSizeCourbeParam(), C1->getSize()-C1->getSizeCourbeParam());
+        }
+        else{
+            glDrawArrays(GL_TRIANGLES, C1->getStart()+C1->getSizeCourbeParam(), C1->getSize()-C1->getSizeCourbeParam());
+        }
     }
-    else{
-        glDrawArrays(GL_TRIANGLES, C1->getStart()+C1->getSizeCourbeParam(), C1->getSize()-C1->getSizeCourbeParam());
-    }
-
-
 
 	m_program->disableAttributeArray("posAttr");
     m_program->disableAttributeArray("colAttr");
@@ -577,4 +555,12 @@ void myOpenGLWidget::clearControlPoints(){
 
 void myOpenGLWidget::setIsImport(bool value){
     this->isImport = value;
+}
+
+void myOpenGLWidget::setControlPointsX(int controlPointsX){
+    this->controlPoints_x = controlPointsX;
+}
+
+void myOpenGLWidget::setControlPointsY(int controlPointsY){
+    this->controlPoints_y = controlPointsY;
 }

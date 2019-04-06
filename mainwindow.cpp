@@ -8,6 +8,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QString>
+#include <QRegularExpression>
+#include <QStringList>
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -32,12 +34,48 @@ void MainWindow::exportAction(){
     QString fileName = QFileDialog::getSaveFileName(this, "Exporter", "",tr("Mesh Files (*.obj)"));
     if(fileName.isEmpty()) return;
     fileName += ".obj";
+
+    int i = 0;
+    for (MyMesh::VertexIter curVert = mesh.vertices_begin(); curVert != mesh.vertices_end(); curVert++)
+    {
+        VertexHandle current = *curVert;
+        Point p = ui->openGLWidget->getControlPoints()[i];
+        MyMesh::Point newPoint = { p.getX(), p.getY(), p.getZ() };
+        qDebug() << newPoint.data();
+        mesh.set_point ( current , newPoint );
+        ++i;
+    }
+
     OpenMesh::IO::write_mesh(mesh, fileName.toUtf8().constData());
+    QFile file(fileName);
+    if (file.open(QIODevice::Append)) {
+        QTextStream stream(&file);
+        stream << "\n# x, y\n"
+               << "x " << ui->openGLWidget->getControlPointsX() << "\n"
+               << "y " << ui->openGLWidget->getControlPointsY();
+    }
 }
 
 void MainWindow::importAction(){
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Mesh"), "", tr("Mesh Files (*.obj)"));
     OpenMesh::IO::read_mesh(mesh, fileName.toUtf8().constData());
+    QFile file(fileName);
+    if(file.exists()) {
+        if(file.open(QFile::ReadOnly | QFile::Text)) {
+            while(!file.atEnd()) {
+                QString line = file.readLine().trimmed();
+                QStringList lineParts = line.split(QRegularExpression("\\s+"));
+                if(lineParts.count() > 0) {
+                    if(lineParts.at(0).compare("x", Qt::CaseInsensitive) == 0) {
+                       ui->openGLWidget->setControlPointsX(lineParts.at(1).toInt());
+                    } else if(lineParts.at(0).compare("y", Qt::CaseInsensitive) == 0) {
+                       ui->openGLWidget->setControlPointsY(lineParts.at(1).toInt());
+                    }
+                }
+            }
+        }
+    }
+    ui->openGLWidget->setIsImport(true);
     resetAllColorsAndThickness(&mesh);
     displayMesh(&mesh);
 }
