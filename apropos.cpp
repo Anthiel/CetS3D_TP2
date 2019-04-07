@@ -5,8 +5,8 @@ Apropos::Apropos(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Apropos)
 {
-    this->setWindowTitle("A propos");
     ui->setupUi(this);
+    this->setWindowTitle("A propos");
 }
 
 Apropos::~Apropos()
