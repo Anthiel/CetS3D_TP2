@@ -42,7 +42,9 @@ SOURCES += \
     segment.cpp \
     point.cpp \
     courbeparametrique.cpp \
-    settings.cpp
+    settings.cpp \
+    commandes.cpp \
+    apropos.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -50,11 +52,15 @@ HEADERS += \
     segment.h \
     point.h \
     courbeparametrique.h \
-    settings.h
+    settings.h \
+    commandes.h \
+    apropos.h
 
 FORMS += \
         mainwindow.ui \
-    settings.ui
+    settings.ui \
+    commandes.ui \
+    apropos.ui
 
 RESOURCES += \
     ressources.qrc

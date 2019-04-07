@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "settings.h"
+#include "commandes.h"
+#include "apropos.h"
 #include <QFileDialog>
 #include <OpenMesh/Core/IO/MeshIO.hh>
 #include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
@@ -43,6 +45,11 @@ protected slots:
     void settingsAction();
     void importAction();
     void exportAction();
+private slots:
+    void on_actionCommandes_triggered();
+
+    void on_action_propos_triggered();
+
 private:
 	Ui::MainWindow *ui;
 
