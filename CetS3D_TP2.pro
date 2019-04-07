@@ -1,6 +1,5 @@
 #R. Raffin
 #M1 Informatique, Aix-Marseille Université
-#.pro de l'application de départ du TP1
 
 QT	+= core gui
 QT      += opengl

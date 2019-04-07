@@ -149,7 +149,7 @@ void CourbeParametrique::setPoint(int numPoint,Point p){
 
 void CourbeParametrique::setControlPointColor(){
 
-    for (int i=0;i<controlPoints.size();++i) {
+    for (unsigned i=0;i<controlPoints.size();++i) {
         controlPoints[i].setColor(1.0, 0.0, 0.0);
     }
 }
@@ -182,7 +182,7 @@ void CourbeParametrique::update(){
 
 
 void CourbeParametrique::makeObject(QVector<GLfloat> *vertData){
-    for(int i = 0; i < controlSegment.size(); i++){
+    for(unsigned i = 0; i < controlSegment.size(); i++){
         controlSegment[i].makeObject(vertData);
     }
     if(needCalcul){
