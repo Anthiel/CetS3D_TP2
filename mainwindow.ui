@@ -41,7 +41,15 @@
     <addaction name="importAction"/>
     <addaction name="exportAction"/>
    </widget>
+   <widget class="QMenu" name="menu_propos">
+    <property name="title">
+     <string>Aide</string>
+    </property>
+    <addaction name="actionCommandes"/>
+    <addaction name="action_propos"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_propos"/>
   </widget>
   <action name="settingsAction">
    <property name="text">
@@ -56,6 +64,16 @@
   <action name="exportAction">
    <property name="text">
     <string>Exporter...</string>
+   </property>
+  </action>
+  <action name="actionCommandes">
+   <property name="text">
+    <string>Commandes</string>
+   </property>
+  </action>
+  <action name="action_propos">
+   <property name="text">
+    <string>À propos</string>
    </property>
   </action>
  </widget>

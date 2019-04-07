@@ -1,10 +1,3 @@
-/* R. Raffin
- * M1 Informatique, Aix-Marseille Université
- * Fenêtre principale
- * Au cas où, l'UI contient une barre de menu, une barre de status, une barre d'outils (cf QMainWindow).
- * Une zone est laissée libre à droite du Widget OpenGL pour mettre de futurs contrôles ou informations.
- */
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QString>
@@ -116,4 +109,20 @@ void MainWindow::displayMesh(MyMesh* _mesh){
 MainWindow::~MainWindow()
 {
 	delete ui;
+}
+
+void MainWindow::on_actionCommandes_triggered()
+{
+    commandes commande;
+    if(commande.exec()){
+
+    }
+}
+
+void MainWindow::on_action_propos_triggered()
+{
+    Apropos aprop;
+    if(aprop.exec()){
+
+    }
 }
